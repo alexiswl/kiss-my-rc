@@ -15,7 +15,7 @@ COLLAB_DEV_IAP_SESSION_YAML="${HOME}/.iap/.session.collab-dev.yaml"
 PROD_IAP_SESSION_YAML="${HOME}/.iap/.session.prod.yaml"
 
 ##################
-# Helper functions
+# Primary functions
 ##################
 
 _iap() {

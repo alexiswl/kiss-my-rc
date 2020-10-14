@@ -106,4 +106,6 @@ ssm_run() {
 
   echo "Running the following command on \"${instance_id}\"" 1>&2
   echo "${command_run}" 1>&2
+
+  # TODO - query progress of command
 }

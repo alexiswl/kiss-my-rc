@@ -35,7 +35,7 @@ done
 
 # Source path autocompletions
 # shellcheck source=path_shortcuts/auto_completions/*.sh
-for s_file in "${_THIS_DIR}"/path_shortcuts/auto_completions/*.sh; do
+for s_file in "${_THIS_DIR}"/path_shortcuts/auto_completions/*."$(basename "${SHELL}")"; do
   source "${s_file}"
 done
 

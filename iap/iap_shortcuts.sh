@@ -14,27 +14,29 @@ Exported commands:
 ###############
 
 get_iap_aws_sync_command() {
-        # Takes in the output from
-        # iap folders update "${GDS_PATH}" --with-access --output-format json
-        while [ $# -gt 0 ]; do
-                case "$1" in
-                    --src)
-                        src="$2"
-                        shift 1
-                    ;;
-                    --dest)
-                        dest="$2"
-                        shift 1
-                    ;;
-                esac
-		shift
-        done
+  : '
+  Takes in the output from
+  iap folders update GDS_PATH --with-access --output-format json
+  '
+  while [ $# -gt 0 ]; do
+      case "$1" in
+          --src)
+              src="$2"
+              shift 1
+          ;;
+          --dest)
+              dest="$2"
+              shift 1
+          ;;
+      esac
+      shift
+  done
 
 	# Check either src or dest are defined but not both
 	# Bash has no xor so we're doing !(x!y || !xy) instead
 	if [[ ! ( ( -n "${src}" && -z "${dest}" ) || ( -z "${src}" && -n "${dest}" ) ) ]]; then
 	    echo "Define either src or dest with --src and --dest respectively. Mutually exclusive args" 1>&2
-            return 1
+      return 1
 	fi
 
 	# Use jq to interpret output
@@ -45,9 +47,9 @@ get_iap_aws_sync_command() {
                     AWS_ACCESS_KEY_ID=\\\"\(.access_Key_Id)\\\" \\
                     AWS_SECRET_ACCESS_KEY=\\\"\(.secret_Access_Key)\\\" \\
                     AWS_SESSION_TOKEN=\\\"\(.session_Token)\\\" \\
-		               aws s3 sync \\\"$src\\\" \\\"s3://\(.bucketName)/\(.keyPrefix)\\\" \\\"$dest\\\""' /dev/stdin)
+		                aws s3 sync \\\"$src\\\" \\\"s3://\(.bucketName)/\(.keyPrefix)\\\" \\\"$dest\\\""' /dev/stdin)
 
-	eval echo "$aws_command" | sed 's/\ \"\"//g'
+	eval echo "${aws_command}" | sed 's/\ \"\"//g'
 
 }
 
@@ -94,8 +96,10 @@ run_illumination_collab() {
 export IAP_BASE_URL="https://aps2.platform.illumina.com"
 
 _run_iap_gui() {
-  # Shortcut for running iap_gui
-  # Single position argument gds_path
+  : '
+  Shortcut for running iap_gui
+  Single position argument gds_path
+  '
   gds_path="$1"
   access_token="$2"
   iap_base_url="$3"

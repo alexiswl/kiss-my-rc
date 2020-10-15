@@ -38,11 +38,11 @@ PROD_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/prod"
 # Version sorter
 
 _verlte() {
-    [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+    [  "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
 }
 
 _verlt() {
-    [ "$1" = "$2" ] && return 1 || verlte $1 $2
+    [ "$1" = "$2" ] && return 1 || verlte "$1" "$2"
 }
 
 _check_yq_version() {

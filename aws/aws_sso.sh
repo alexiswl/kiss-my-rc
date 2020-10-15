@@ -2,6 +2,14 @@
 
 : '
 Simple functions for logging into aws sso
+
+Exported Functions
+
+* aws_<workgroup>
+  * Run a command in a specific aws workgroup
+
+* aws_sso_<workgroup>
+  * Log into a specific aws workgroup
 '
 
 ##########

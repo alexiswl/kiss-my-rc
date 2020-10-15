@@ -3,11 +3,20 @@
 : '
 SSM Functions to enable easy login to aws nodes running
 the ssm agent
+
+* ssm
+> Log into a running ec2-instance
+
+* ssm_port
+> Port forward to a running ec2-instance
+
+* ssm_run
+> Submit a command to an ssm instance
 '
 
-###########
-# FUNCTIONS
-###########
+###################
+# Exported Functions
+###################
 
 ssm() {
   : '

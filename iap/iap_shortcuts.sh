@@ -2,6 +2,11 @@
 
 : '
 Commands use to ease outputs and running of iap functions
+
+Exported commands:
+* get_iap_aws_sync_command
+* run_illumination_<workgroup>
+* run_iap_<workgroup>_gui
 '
 
 ###############
@@ -116,11 +121,11 @@ _run_iap_gui() {
 }
 
 run_iap_collab_gui() {
-	gds_path="$1"
-	_run_iap_gui "${gds_path}" "$(get_iap_collab_token)"
+	local gds_path="$1"
+	_run_iap_gui "${gds_path}" "$(_get_iap_collab_token)"
 }
 
 run_iap_dev_gui() {
-	gds_path="$1"
-	_run_iap_gui "${gds_path}" "$(get_iap_dev_token)"
+	local gds_path="$1"
+	_run_iap_gui "${gds_path}" "$(_get_iap_dev_token)"
 }

@@ -91,10 +91,10 @@ ssm_run() {
   # Now wrap command in su - "ec2-user" -c "${command}"
   # Grossness trigger warning -
   # Escape " by turning into \"
-  command="${command}//\"/\\\""
+  command="${command//\"/\\\"}"
   # Escape \ by turning \ into \\
   # Essentially an internal '"' will become '\\\"'
-  command="${command}//\\/\\\\\\"
+  command="${command//\\/\\\\\\}"
 
   # Place command inside 'su - 'ec2-user' -c '<command>'
   # To ensure that the command is created by the right user
@@ -113,8 +113,16 @@ ssm_run() {
 	                '.Command.Parameters.commands[0]'
                })"
 
+  # Get command ID
+  command_id="$(echo "${command_out}" | {
+	               # JQ Command.Parameters.commands
+                 jq --raw-output \
+	                '.Command.CommandId'
+               })"
+
+
   echo "Running the following command on \"${instance_id}\"" 1>&2
   echo "${command_run}" 1>&2
 
-  # TODO - query progress of command
+  echo "Query command status with 'aws ssm list-commands --instance-id=\"${instance_id}\" --command-id=\"${command_id}\"'" 1>&2
 }

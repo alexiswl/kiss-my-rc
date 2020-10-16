@@ -38,11 +38,11 @@ PROD_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/prod"
 # Version sorter
 
 _verlte() {
-    [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+    [  "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
 }
 
 _verlt() {
-    [ "$1" = "$2" ] && return 1 || verlte $1 $2
+    [ "$1" = "$2" ] && return 1 || verlte "$1" "$2"
 }
 
 _check_yq_version() {
@@ -60,7 +60,7 @@ _check_yq_version() {
 
 	# Check yq version is 3.3.2 or higher
 	if ! _verlte "${YQ_VERSION}" "$(yq --version |& cut -d' ' -f3)"; then
-	  echo "Please install yq version 3.3.2 or higher" 2>&1
+	  echo "Please install yq version 3.3.2 or higher" 1>&2
 	  return 1
 	fi
 }
@@ -111,17 +111,16 @@ _get_iap_token() {
 	# Get the yaml file
 	local yaml_file="$1"
 	local token
+
+	# Check yq is installed
+  if ! _check_yq_version; then
+	  return 1
+	fi
+
 	# Check file exists
 	if [[ ! -e "${yaml_file}" ]]; then
             echo "Error: ${yaml_file} does not exists" 1>&2
 	fi
-	# Check yq is installed
-	(
-	  if ! yq --version >/dev/null 2>&1; then
-	      echo "Error: please install yq" 1>&2
-	      return 1
-	  fi
-	)
 
 	# Retrieve token from yaml file
   yq r "${yaml_file}" 'access-token'

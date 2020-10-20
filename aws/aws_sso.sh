@@ -31,8 +31,7 @@ _aws() {
   : '
   Run with a specific profile
   '
-  local profile="$1"
-  aws "${@}" --profile="${profile}"
+  eval aws '"${@}"'
 }
 
 _aws_sso() {
@@ -47,11 +46,11 @@ _aws_sso() {
 ###################
 
 aws_tothill(){
-  _aws "${TOTHILL_PROFILE}"
+  AWS_PROFILE="${TOTHILL_PROFILE}" _aws "$@"
 }
 
 aws_dev(){
-  _aws "${DEV_PROFILE}"
+  AWS_PROFILE="${DEV_PROFILE}" _aws "$@"
 }
 
 aws_sso_dev() {

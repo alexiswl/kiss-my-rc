@@ -38,11 +38,11 @@ PROD_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/prod"
 # Version sorter
 
 _verlte() {
-    [  "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
+  [ "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
 }
 
 _verlt() {
-    [ "$1" = "$2" ] && return 1 || verlte "$1" "$2"
+  [ "$1" = "$2" ] && return 1 || verlte "$1" "$2"
 }
 
 _check_yq_version() {
@@ -51,18 +51,18 @@ _check_yq_version() {
   Check version
   '
   # Check yq is installed
-	(
-	  if ! yq --version >/dev/null 2>&1; then
-	      echo "Error: please install yq version 3.3.2 or higher" 1>&2
-	      return 1
-	  fi
-	)
+  (
+    if ! yq --version >/dev/null 2>&1; then
+      echo "Error: please install yq version 3.3.2 or higher" 1>&2
+      return 1
+    fi
+  )
 
-	# Check yq version is 3.3.2 or higher
-	if ! _verlte "${YQ_VERSION}" "$(yq --version |& cut -d' ' -f3)"; then
-	  echo "Please install yq version 3.3.2 or higher" 1>&2
-	  return 1
-	fi
+  # Check yq version is 3.3.2 or higher
+  if ! _verlte "${YQ_VERSION}" "$(yq --version |& cut -d' ' -f3)"; then
+    echo "Please install yq version 3.3.2 or higher" 1>&2
+    return 1
+  fi
 }
 
 ##################
@@ -108,21 +108,21 @@ _get_iap_token() {
   Get the iap token from a session yaml
   Should be used in more explicit commands - like _get_iap_dev_token()
   '
-	# Get the yaml file
-	local yaml_file="$1"
-	local token
+  # Get the yaml file
+  local yaml_file="$1"
+  local token
 
-	# Check yq is installed
+  # Check yq is installed
   if ! _check_yq_version; then
-	  return 1
-	fi
+    return 1
+  fi
 
-	# Check file exists
-	if [[ ! -e "${yaml_file}" ]]; then
-            echo "Error: ${yaml_file} does not exists" 1>&2
-	fi
+  # Check file exists
+  if [[ ! -e "${yaml_file}" ]]; then
+    echo "Error: ${yaml_file} does not exists" 1>&2
+  fi
 
-	# Retrieve token from yaml file
+  # Retrieve token from yaml file
   yq r "${yaml_file}" 'access-token'
 }
 
@@ -139,18 +139,18 @@ _update_session_yaml() {
   local session_yaml_path="$2"
 
   # Check yq exists in path and is a high enough version
-	if ! _check_yq_version; then
-	  return 1
-	fi
+  if ! _check_yq_version; then
+    return 1
+  fi
 
   # Check session yaml exists
   if [[ ! -f "${session_yaml_path}" ]]; then
     echo "Could not update yaml file \"${session_yaml_path}\". It does not exist" 1>&2
   fi
 
-	# Update session yaml inplace
-	echo "Updating access token in ${session_yaml_path}" 1>&2
-	yq w -i "${session_yaml_path}" "access-token" "${new_token}"
+  # Update session yaml inplace
+  echo "Updating access token in ${session_yaml_path}" 1>&2
+  yq w -i "${session_yaml_path}" "access-token" "${new_token}"
 }
 
 _iap_refresh_token_in_session_yaml() {
@@ -198,19 +198,19 @@ iap_refresh_prod_session_yaml() {
 ################################
 
 _get_iap_dev_token() {
-	# Get token from yaml
-	local token
-	token=$(_get_iap_token "${DEV_IAP_SESSION_YAML}")
-	# Return token
-	echo "${token}"
+  # Get token from yaml
+  local token
+  token=$(_get_iap_token "${DEV_IAP_SESSION_YAML}")
+  # Return token
+  echo "${token}"
 }
 
 _get_iap_collab_token() {
-	# Get token from yaml
-	local token
-	token=$(_get_iap_token "${COLLAB_IAP_SESSION_YAML}")
-	# Return token
-	echo "${token}"
+  # Get token from yaml
+  local token
+  token=$(_get_iap_token "${COLLAB_IAP_SESSION_YAML}")
+  # Return token
+  echo "${token}"
 }
 
 _get_iap_collab_dev_token() {
@@ -234,16 +234,16 @@ _get_iap_prod_token() {
 #################################
 
 iap_collab() {
-	# Run iap with collab token
-	IAP_AUTH_TOKEN="$(_get_iap_collab_token)" _iap "${@}"
+  # Run iap with collab token
+  IAP_AUTH_TOKEN="$(_get_iap_collab_token)" _iap "${@}"
 }
 
 iap_dev() {
-	# Run iap with dev token
-	IAP_AUTH_TOKEN="$(_get_iap_dev_token)" _iap "${@}"
+  # Run iap with dev token
+  IAP_AUTH_TOKEN="$(_get_iap_dev_token)" _iap "${@}"
 }
 
 iap_prod() {
-	# Run iap with prod token
+  # Run iap with prod token
   IAP_AUTH_TOKEN="$(_get_iap_prod_token)" _iap "${@}"
 }

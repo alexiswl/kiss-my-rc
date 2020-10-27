@@ -31,6 +31,15 @@ COLLAB_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/collab"
 COLLAB_DEV_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/collab_dev"
 PROD_IAP_GPG_PASS_KEY="${IAP_GPG_PASS_KEY_ROOT}/prod"
 
+# Set workgroup ids
+DEV_IAP_WORKGROUP_ID="e4730533-d752-3601-b4b7-8d4d2f6373de"
+COLLAB_IAP_WORKGROUP_ID="9c481003-f453-3ff2-bffa-ae153b1ee565"
+COLLAB_DEV_IAP_WORKGROUP_ID="971b36d0-5997-3334-9ad7-fe8eb96aee34"
+PROD_IAP_WORKGROUP_ID="4d2aae8c-41d3-302e-a814-cdc210e4c38b"
+
+# Set auth url
+IAP_DOMAIN="umccr"
+
 ##################
 # Tiny Functions
 ##################
@@ -87,8 +96,12 @@ _create_iap_token() {
   Given an api key, create a cli token
   '
   local api_key="$1"
+  local workgroup_id="$2"
+
   # Return the token string
-  "${IAP_PATH}" tokens create --api-key="${api_key}"
+  "${IAP_PATH}" tokens create \
+    --api-key="${api_key}" \
+    --workgroup-id="${workgroup_id}"
 }
 
 _get_api_key() {
@@ -127,6 +140,21 @@ _get_iap_token() {
 }
 
 ###########################
+# IAP SSO Login
+###########################
+
+_iap_sso_login() {
+  : '
+  Login via auth url
+  '
+  # Log into iap
+  "${IAP_PATH}" login \
+    --sso \
+    --domain "${IAP_DOMAIN}"
+
+}
+
+###########################
 # Token creation management
 ###########################
 
@@ -162,12 +190,17 @@ _iap_refresh_token_in_session_yaml() {
   # Set input vars
   local api_key_path="$1"
   local session_yaml_path="$2"
+  local workgroup_id="$3"
+
+  # Login first via sso.
+  echo "Logging into iap via sso" 1>&2
+  _iap_sso_login
 
   # Retrieve api key
   api_key="$(_get_api_key "${api_key_path}")"
 
   # Create a new iap token
-  token="$(_create_iap_token "${api_key}")"
+  token="$(_create_iap_token "${api_key}" "${workgroup_id}")"
 
   # Write the new token to the session yaml
   _update_session_yaml "${token}" "${session_yaml_path}"
@@ -178,19 +211,19 @@ _iap_refresh_token_in_session_yaml() {
 #####################################################
 
 iap_refresh_dev_session_yaml() {
-  _iap_refresh_token_in_session_yaml "${DEV_IAP_GPG_PASS_KEY}" "${DEV_IAP_SESSION_YAML}"
+  _iap_refresh_token_in_session_yaml "${DEV_IAP_GPG_PASS_KEY}" "${DEV_IAP_SESSION_YAML}" "${DEV_IAP_WORKGROUP_ID}"
 }
 
 iap_refresh_collab_session_yaml() {
-  _iap_refresh_token_in_session_yaml "${COLLAB_IAP_GPG_PASS_KEY}" "${COLLAB_IAP_SESSION_YAML}"
+  _iap_refresh_token_in_session_yaml "${COLLAB_IAP_GPG_PASS_KEY}" "${COLLAB_IAP_SESSION_YAML}" "${COLLAB_IAP_WORKGROUP_ID}"
 }
 
 iap_refresh_collab_dev_session_yaml() {
-  _iap_refresh_token_in_session_yaml "${COLLAB_DEV_IAP_GPG_PASS_KEY}" "${COLLAB_DEV_IAP_SESSION_YAML}"
+  _iap_refresh_token_in_session_yaml "${COLLAB_DEV_IAP_GPG_PASS_KEY}" "${COLLAB_DEV_IAP_SESSION_YAML}" "${COLLAB_DEV_IAP_WORKGROUP_ID}"
 }
 
 iap_refresh_prod_session_yaml() {
-  _iap_refresh_token_in_session_yaml "${PROD_IAP_GPG_PASS_KEY}" "${PROD_IAP_SESSION_YAML}"
+  _iap_refresh_token_in_session_yaml "${PROD_IAP_GPG_PASS_KEY}" "${PROD_IAP_SESSION_YAML}" "${PROD_IAP_WORKGROUP_ID}"
 }
 
 ################################

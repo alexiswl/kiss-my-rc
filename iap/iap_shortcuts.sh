@@ -58,6 +58,7 @@ get_iap_aws_sync_command() {
 ##################
 DEV_PORT="3001"
 COLLAB_PORT="3002"
+PROD_PORT="3003"
 
 _run_illumination() {
 	: '
@@ -87,6 +88,12 @@ run_illumination_collab() {
 	# Run illumination with collab token
 	# Runs on port 3002
 	_run_illumination "$(_get_iap_collab_token)" "${COLLAB_PORT}"
+}
+
+run_illumination_prod() {
+  # Run illumination with collab token
+	# Runs on port 3002
+	_run_illumination "$(_get_iap_prod_token)" "${PROD_PORT}"
 }
 
 #########
@@ -132,4 +139,9 @@ run_iap_collab_gui() {
 run_iap_dev_gui() {
 	local gds_path="$1"
 	_run_iap_gui "${gds_path}" "$(_get_iap_dev_token)"
+}
+
+run_iap_prod_gui() {
+	local gds_path="$1"
+	_run_iap_gui "${gds_path}" "$(_get_iap_prod_token)"
 }

@@ -65,7 +65,7 @@ and returns a AWS s3 sync command with a session token.
 > Example Usage
 ```bash
 GDS_PATH="gds://umccr-alexisl-test"
-iap folders update \
+iap folders update "${GDS_PATH}" \
   --with-access \
   --output-format=json | \
 get_iap_aws_sync_command \

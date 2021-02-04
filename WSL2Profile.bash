@@ -15,9 +15,9 @@ export BROWSER
 # Get this current file's directory so we can source files from each of the folders
 _THIS_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-# Source iap functions
-# shellcheck source=iap/*.sh
-for s_file in "${_THIS_DIR}"/iap/*.sh; do
+# Source ica functions
+# shellcheck source=ica/*.sh
+for s_file in "${_THIS_DIR}"/ica/*.sh; do
   source "${s_file}"
 done
 

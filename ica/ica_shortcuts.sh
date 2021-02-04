@@ -4,19 +4,19 @@
 Commands use to ease outputs and running of iap functions
 
 Exported commands:
-* get_iap_aws_sync_command
+* get_ica_aws_sync_command
 * run_illumination_<workgroup>
-* run_iap_<workgroup>_gui
+* run_ica_<workgroup>_gui
 '
 
 ###############
 # Miscellaneous
 ###############
 
-get_iap_aws_sync_command() {
+get_ica_aws_sync_command() {
   : '
   Takes in the output from
-  iap folders update GDS_PATH --with-access --output-format json
+  ica folders update GDS_PATH --with-access --output-format json
   '
   while [ $# -gt 0 ]; do
       case "$1" in
@@ -81,39 +81,39 @@ _run_illumination() {
 run_illumination_dev() {
 	# Run illumination with dev user
 	# Runs on port 3001
-	_run_illumination "$(_get_iap_dev_token)" "${DEV_PORT}"
+	_run_illumination "$(_get_ica_dev_token)" "${DEV_PORT}"
 }
 
 run_illumination_collab() {
 	# Run illumination with collab token
 	# Runs on port 3002
-	_run_illumination "$(_get_iap_collab_token)" "${COLLAB_PORT}"
+	_run_illumination "$(_get_ica_collab_token)" "${COLLAB_PORT}"
 }
 
 run_illumination_prod() {
   # Run illumination with collab token
 	# Runs on port 3002
-	_run_illumination "$(_get_iap_prod_token)" "${PROD_PORT}"
+	_run_illumination "$(_get_ica_prod_token)" "${PROD_PORT}"
 }
 
 #########
-# IAP GUI
+# ICA GUI
 #########
 # Set the default
-export IAP_BASE_URL="https://aps2.platform.illumina.com"
+export ICA_BASE_URL="https://aps2.platform.illumina.com"
 
-_run_iap_gui() {
+_run_ica_gui() {
   : '
-  Shortcut for running iap_gui
+  Shortcut for running ica_gui
   Single position argument gds_path
   '
   gds_path="$1"
   access_token="$2"
-  iap_base_url="$3"
+  ica_base_url="$3"
 
   # Check for base url
-  if [[ -z "${iap_base_url}" ]]; then
-     iap_base_url="${IAP_BASE_URL}"
+  if [[ -z "${ica_base_url}" ]]; then
+     ica_base_url="${ICA_BASE_URL}"
   fi
 
   # Run docker command
@@ -123,25 +123,25 @@ _run_iap_gui() {
     --detach \
     --env "DISPLAY=${DISPLAY}" \
     --env "XAUTHORITY=/tmp/.docker.xauth" \
-    --env "IAP_AUTH_TOKEN=${access_token}" \
-    --env "IAP_BASE_URL=${iap_base_url}" \
+    --env "ICA_ACCESS_TOKEN=${access_token}" \
+    --env "ICA_BASE_URL=${ica_base_url}" \
     --volume "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume "/tmp/.docker.xauth:/tmp/.docker.xauth:rw" \
-    umccr/iap_gui:latest \
+    umccr/ica_gui:latest \
       --gds-path "$gds_path"
 }
 
-run_iap_collab_gui() {
+run_ica_collab_gui() {
 	local gds_path="$1"
-	_run_iap_gui "${gds_path}" "$(_get_iap_collab_token)"
+	_run_ica_gui "${gds_path}" "$(_get_ica_collab_token)"
 }
 
-run_iap_dev_gui() {
+run_ica_dev_gui() {
 	local gds_path="$1"
-	_run_iap_gui "${gds_path}" "$(_get_iap_dev_token)"
+	_run_ica_gui "${gds_path}" "$(_get_ica_dev_token)"
 }
 
-run_iap_prod_gui() {
+run_ica_prod_gui() {
 	local gds_path="$1"
-	_run_iap_gui "${gds_path}" "$(_get_iap_prod_token)"
+	_run_ica_gui "${gds_path}" "$(_get_ica_prod_token)"
 }

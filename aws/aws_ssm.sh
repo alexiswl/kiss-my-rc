@@ -21,7 +21,7 @@ the ssm agent
 ssm() {
   : '
   ssh into the ec2 instance.
-  params: instance_id - should start with 'i-'
+  params: instance_id - should start with "i-"
   '
   local instance_id
   instance_id="$1"
@@ -35,22 +35,34 @@ ssm() {
 ssm_port() {
   : '
   Log into an ec2 instance and forward the ports
-  param: instance_id: starts with 'i-'
+  param: instance_id: starts with "i-"
   param: remote_port: port on ec2 you wish to forward - should be a number
   param: local_port (optional): port on ec2 you wish to bind the remote port to.
   '
+  # Get inputs to function
   local instance_id="$1"
   local remote_port="$2"
   local local_port="$3"
+  # Initialise other variables
+  local parameter_arg
+
   # If local port is not set, set as remote port
   if [[ -z "${local_port}" ]]; then
     local_port="${remote_port}"
   fi
+
+  parameter_arg="$(jq --raw-output \
+                    --arg "key0" "portNumber" \
+                    --arg "value0" "${remote_port}" \
+                    --arg "key1" "localPortNumber" \
+                    --arg "value1" "${local_port}" \
+                    '. | .[$key0]=[$value0] | .[$key1]=[$value1]' <<< '{}')"
+
   # Run command
   aws ssm start-session \
     --target "${instance_id}" \
     --document-name "AWS-StartPortForwardingSession" \
-    --parameters "{\"portNumber\":[\"${remote_port}\"],\"localPortNumber\":[\"${local_port}\"]}"
+    --parameters "${parameter_arg}"
 }
 
 ssm_run() {
@@ -61,17 +73,22 @@ ssm_run() {
   # Set required parameters
   local command
   local instance_id
+  # Other args used throughout
+  local parameter_arg
+  local command_out
+  local command_run
+  local command_id
 
   # Get input arguments
   while [ $# -gt 0 ]; do
           case "$1" in
               --command)
                   command="$2"
-                  shift 1
+                  shift 2
               ;;
               --instance-id)
                   instance_id="$2"
-                  shift 1
+                  shift 2
               ;;
           esac
           shift
@@ -88,23 +105,20 @@ ssm_run() {
     command="$(</dev/stdin)"
   fi
 
-  # Now wrap command in su - "ec2-user" -c "${command}"
-  # Grossness trigger warning -
-  # Escape " by turning into \"
-  command="${command//\"/\\\"}"
-  # Escape \ by turning \ into \\
-  # Essentially an internal '"' will become '\\\"'
-  command="${command//\\/\\\\\\}"
-
-  # Place command inside 'su - 'ec2-user' -c '<command>'
-  # To ensure that the command is created by the right user
-  command="su - \\\"ec2-user\\\" -c \\\"${command}\\\""
+  # Now jq'ise the parameter arguments
+  # Credit: https://stackoverflow.com/a/38862221/6946787
+  parameter_arg="$(jq --raw-output \
+                      --arg "key" "commands" \
+                      --arg "value" "su - 'ec2-user\'-c '${command}'" \
+                      '. | .[$key]=[$value]' <<< '{}'
+                  )"
 
   # Now send through run shell script command to instance
   command_out="$(aws ssm send-command \
                   --document-name "AWS-RunShellScript" \
                   --targets "Key=InstanceIds,Values=${instance_id}" \
-                  --parameters "{\"commands\":[\"${command}\"]}")"
+                  --parameters "${parameter_arg}" \
+                )"
 
   # Write back command to user
   command_run="$(echo "${command_out}" | {

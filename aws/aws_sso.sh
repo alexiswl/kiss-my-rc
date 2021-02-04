@@ -18,6 +18,7 @@ Exported Functions
 
 # AWS aliases
 DEV_PROFILE="843407916570_AdministratorAccess"
+PROD_PROFILE="472057503814_AdministratorAccess"
 TOTHILL_PROFILE="206808631540_AdministratorAccess"
 
 # Set default profile to DEV_PROFILE
@@ -59,4 +60,8 @@ aws_sso_dev() {
 
 aws_sso_tothill() {
 	_aws_sso "${TOTHILL_PROFILE}"
+}
+
+aws_sso_prod() {
+  _aws_sso "${PROD_PROFILE}"
 }

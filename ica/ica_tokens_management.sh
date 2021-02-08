@@ -200,10 +200,6 @@ _ica_refresh_token_in_session_yaml() {
   local session_yaml_path="$2"
   local workgroup_id="$3"  # Optional
 
-  # Login first via sso.
-  echo "Logging into ica via sso" 1>&2
-  _ica_sso_login
-
   # Retrieve api key
   api_key="$(_get_api_key "${api_key_path}")"
 

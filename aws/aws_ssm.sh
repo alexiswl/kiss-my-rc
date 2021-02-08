@@ -65,6 +65,7 @@ ssm_port() {
     --parameters "${parameter_arg}"
 }
 
+
 ssm_run() {
   : '
   Run ssm parameter command
@@ -109,7 +110,7 @@ ssm_run() {
   # Credit: https://stackoverflow.com/a/38862221/6946787
   parameter_arg="$(jq --raw-output \
                       --arg "key" "commands" \
-                      --arg "value" "su - 'ec2-user\'-c '${command}'" \
+                      --arg "value" "su - 'ec2-user' -c '${command}'" \
                       '. | .[$key]=[$value]' <<< '{}'
                   )"
 

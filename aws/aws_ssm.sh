@@ -110,8 +110,9 @@ ssm_run() {
   # Credit: https://stackoverflow.com/a/38862221/6946787
   parameter_arg="$(jq --raw-output \
                       --arg "key" "commands" \
-                      --arg "value" "su - 'ec2-user' -c '${command}'" \
-                      '. | .[$key]=[$value]' <<< '{}'
+                      --arg "command_prefix" "su - \"ec2-user\"" \
+                      --arg "command_value" "${command}" \
+                      '.[$key]=[$command_prefix + " -c " + "\($command_value | tojson)"]' <<< '{}'
                   )"
 
   # Now send through run shell script command to instance

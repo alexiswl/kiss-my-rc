@@ -26,24 +26,33 @@ ica_aws_s3_folder_download() {
               -d / --download-path: The path you'd like to download the data to. Working dir by default.
 
           Requirements:
-            * docker
-            * jq
-            * python3
+            * aws
+            * jq     (v1.5+)
+            * python3 (v3.4+)
 
           You will need to set the ICA_ACCESS_TOKEN environment variable to run this program.
-
-          The program runs the links binary through docker to
-          the gds path via a presigned url.  This can be used on text files and even gzipped files!
 
           You can also use any of the aws s3 sync parameters to add to the command list, for example
           ica_aws_s3_files_download --gds-path gds://volume-name/path-to-folder/ --exclude='*' --include='*.fastq.gz'
           will download only fastq files from that folder.
+
+          If you are unsure on what files will be downloaded, use the --dryrun parameter. This will inform you of which
+          files will be downloaded to your local file system.
           "
   }
 
   ## Internal functions
   _echo_stderr(){
     echo "$@" 1>&2
+  }
+
+  _binaries_check(){
+    : '
+    Check each of the required binaries are available
+    '
+    if ! (type aws jq python3 1>/dev/null); then
+      return 1
+    fi
   }
 
   # Check destination path
@@ -199,13 +208,21 @@ ica_aws_s3_folder_download() {
 
   # Start main
 
-  # Get args
+  # Set local vars
   local aws_s3_sync_args=()
   local gds_path=""
   local download_path="$PWD"
   local base_url="https://aps2.platform.illumina.com"
   local access_token="${ICA_ACCESS_TOKEN}"
 
+  # Check available binaries exist
+  if ! _binaries_check; then
+    _echo_stderr "Please make sure binaries aws, jq and python3 are all available on your PATH variable"
+    _print_help
+    return 1
+  fi
+
+  # Get args from command line
   while [ $# -gt 0 ]; do
     case "$1" in
       -g | --gds-path)
@@ -222,7 +239,7 @@ ica_aws_s3_folder_download() {
         ;;
       -h | --help)
         _print_help
-        return 1
+        return 0
         ;;
       --*)
         # Let's add in the parameter arg

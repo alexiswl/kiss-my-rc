@@ -368,7 +368,7 @@ ica_aws_s3_folder_upload() {
   aws_key_prefix="$(_get_key_prefix_from_credentials "${aws_credentials}")"
 
   # Check at least one of the important ones is defined
-  if [[ -z "${aws_access_key_id}" ]]; then
+  if [[ -z "${aws_access_key_id}" || "${aws_access_key_id}" == "null" ]]; then
     _echo_stderr "Could not get aws access key id, are you sure you have write permissions to the folder \"${gds_path}\"?"
     return 1
   fi

@@ -256,6 +256,16 @@ ica_aws_s3_folder_upload() {
       '.id'
   }
 
+  _strip_path_from_base_url() {
+    : '
+    Base url should not contain any path content. We use python3 urlparse to return just the scheme and netloc.
+    '
+    local base_url="$1"
+
+    # Returns the path attribute of base_url input
+    python3 -c "from urllib.parse import urlparse; print(urlparse(\"${base_url}\").scheme + \"://\" + urlparse(\"${base_url}\").netloc)"
+  }
+
   # Start main
 
   # Set local vars
@@ -322,6 +332,9 @@ ica_aws_s3_folder_upload() {
     return 1
   fi
   _check_src_path "${src_path}"
+
+  # Strip base url
+  base_url="$(_strip_path_from_base_url "${base_url}")"
 
   # Now run the aws s3 sync command through eval to quote the necessary arguments
   # Split volume and path

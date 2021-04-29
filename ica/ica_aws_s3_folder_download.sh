@@ -205,6 +205,16 @@ ica_aws_s3_folder_download() {
 
   }
 
+  _strip_path_from_base_url() {
+    : '
+    Base url should not contain any path content. We use python3 urlparse to return just the scheme and netloc.
+    '
+    local base_url="$1"
+
+    # Returns the path attribute of base_url input
+    python3 -c "from urllib.parse import urlparse; print(urlparse(\"${base_url}\").scheme + \"://\" + urlparse(\"${base_url}\").netloc)"
+  }
+
   # Start main
 
   # Set local vars
@@ -261,6 +271,9 @@ ica_aws_s3_folder_download() {
     esac
     shift 1
   done
+
+  # Strip base url
+  base_url="$(_strip_path_from_base_url "${base_url}")"
 
   # Check mandatory args are defined
   if [[ -z "${gds_path}" ]]; then

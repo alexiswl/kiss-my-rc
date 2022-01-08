@@ -1,0 +1,10 @@
+---
+name: go_to_git
+
+parameters:
+  - name: "repo"
+    summary: "A local GitHub repository"
+    type: "string"
+    completion:
+      command_string: |-
+        _get_git_repos.sh

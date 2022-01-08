@@ -1,0 +1,10 @@
+---
+name: ssm
+
+title: login into shortcuts-aws instances
+
+parameters:
+  - name: instance_id
+    completion:
+      command_string: |-
+        _aws_ec2_list_running_instances.sh

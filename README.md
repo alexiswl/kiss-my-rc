@@ -79,7 +79,7 @@ AWS_DEFAULT_REGION="ap-southeast-2" \
 AWS_ACCESS_KEY_ID="AB..." \
 AWS_SECRET_ACCESS_KEY="CD..." \
 AWS_SESSION_TOKEN="EF..." \
-aws s3 sync \
+shortcuts-aws s3 sync \
   "s3://stratus-gds-aps2/..GH../mini-fastqs/" \
   "/tmp/tmp.s0GX1UXSwu"
 ```

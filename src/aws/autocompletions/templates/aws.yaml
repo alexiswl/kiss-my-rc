@@ -4,9 +4,11 @@ name: shortcuts-aws
 title: shortcuts-aws v2 cli
 
 subcommand: s3
-  summary: s3 commands
+  summary: |
+    s3 commands
   subcommand: ls
-    summary: List files / folders in the shortcuts-aws file system
+    summary: |
+      List files / folders in the shortcuts-aws file system
     parameters:
       - name: s3uri
         completion:

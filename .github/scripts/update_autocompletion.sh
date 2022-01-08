@@ -8,43 +8,53 @@ Wraps around autocompletion to run the appspec completion command from within th
 set -euo pipefail
 
 # Globals
-AUTOCOMPLETION_DIR="autocompletion"
-TEMPLATE_DIR="specs/"
+SRC_DIR="src"
+AUTOCOMPLETION_DIR="autocompletions"
+TEMPLATE_DIR="templates"
 
-(
-  : '
-  Run the rest in a subshell
-  '
+cd "${SRC_DIR}"
 
-  # Change to autocompletion dir
-  cd "${AUTOCOMPLETION_DIR}"
+for module in */ ; do
+  # Make sure autocompletion exists this morning
+  if [[ ! -d "${module}/${AUTOCOMPLETION_DIR}" ]]; then
+    continue
+  fi
 
-  # Create the bash and zsh dirs
-  mkdir -p "bash"
-  mkdir -p "zsh"
+  (
+    : '
+    Run the rest in a subshell
+    '
 
-  # Run through bash completions
-  for spec in "${TEMPLATE_DIR}"/*.yaml; do
-     [[ -e "$spec" ]] || break  # handle the case of no *.yaml files
-     name_root="$(basename "${spec%.yaml}")"
+    # Change to autocompletion dir
+    cd "${module}/${AUTOCOMPLETION_DIR}"
 
-    # Run the bash completion script
-    appspec completion \
-      "${spec}" \
-      --name "${name_root}" \
-      --bash > "bash/${name_root}.bash"
+    # Create the bash and zsh dirs
+    mkdir -p "bash"
+    mkdir -p "zsh"
 
-     # Overwrite shebang
-     sed -i '1c#!/usr/bin/env bash' "bash/${name_root}.bash"
-  done
+    # Run through bash completions
+    for spec in "${TEMPLATE_DIR}"/*.yaml; do
+       [[ -e "$spec" ]] || break  # handle the case of no *.yaml files
+       name_root="$(basename "${spec%.yaml}")"
 
-  # Run the zsh completions
-  for spec in specs/*.yaml; do
-    [[ -e "$spec" ]] || break  # handle the case of no *.yaml files
-    name_root="$(basename "${spec%.yaml}")"
-    appspec completion \
-      "${spec}" \
-      --name "${name_root}" \
-      --zsh > "zsh/_${name_root}"
-  done
-)
+      # Run the bash completion script
+      appspec completion \
+        "${spec}" \
+        --name "${name_root}" \
+        --bash > "bash/${name_root}.bash"
+
+       # Overwrite shebang
+       sed -i '1c#!/usr/bin/env bash' "bash/${name_root}.bash"
+    done
+
+    # Run the zsh completions
+    for spec in specs/*.yaml; do
+      [[ -e "$spec" ]] || break  # handle the case of no *.yaml files
+      name_root="$(basename "${spec%.yaml}")"
+      appspec completion \
+        "${spec}" \
+        --name "${name_root}" \
+        --zsh > "zsh/_${name_root}"
+    done
+  )
+done

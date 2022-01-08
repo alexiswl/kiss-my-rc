@@ -1,16 +1,18 @@
 ---
-name: shortcuts-aws
+name: aws
 
-title: shortcuts-aws v2 cli
+title: -aws v2 cli
 
-subcommand: s3
-  summary: |
-    s3 commands
-  subcommand: ls
+subcommands:
+  s3:
     summary: |
-      List files / folders in the shortcuts-aws file system
-    parameters:
-      - name: s3uri
-        completion:
-          command_string: |
-             _aws_s3_ls.sh "${CURRENT_WORD}"
+      s3 commands
+    subcommands:
+      ls:
+        summary: |
+          List files / folders in the aws file system
+        parameters:
+          - name: s3uri
+            completion:
+              command_string: |
+                 _aws_s3_ls.sh "${CURRENT_WORD}"

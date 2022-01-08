@@ -58,7 +58,7 @@ _add_bin_to_path
 if [[ "${_THIS_SHELL}" == "bash" ]]; then
   if _directory_not_empty "${_THIS_DIR}/autocompletions/bash/"; then
     # Source files in autocompletion given autocompletion directory exists
-    # shellcheck source=shortcuts-aws/autocompletions/bash/*bash
+    # shellcheck source=aws/autocompletions/bash/*bash
     for s_file in "${_THIS_DIR}/autocompletions/bash/"*.bash; do
       source "${s_file}"
     done
@@ -66,7 +66,12 @@ if [[ "${_THIS_SHELL}" == "bash" ]]; then
 elif [[ "${_THIS_SHELL}" == "zsh" ]]; then
   if _directory_not_empty "${_THIS_DIR}/autocompletions/bash/"; then
     # Source files in fbin/ given fbin exists and is not empty
-    # shellcheck source=shortcuts-aws/fbin/*.sh
+    # shellcheck source=aws/fbin/*.sh
     export fpath=( "${_THIS_DIR}/autocompletions/zsh/" ${fpath-} )
   fi
+fi
+
+# Add helper-scripts directory to path for auto-completion functions
+if _directory_not_empty "${_THIS_DIR}/autocompletions/helper-scripts/"; then
+  export PATH="${_THIS_DIR}/autocompletions/helper-scripts/:${PATH-}"
 fi

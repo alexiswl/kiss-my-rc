@@ -1,7 +1,7 @@
 ---
 name: ssm
 
-title: login into shortcuts-aws instances
+title: login into aws instances
 
 parameters:
   - name: instance_id

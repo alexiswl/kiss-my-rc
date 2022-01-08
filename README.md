@@ -1,11 +1,30 @@
 # bashrc
-Shortcuts / Aliases / Functions for my linux terminal
+Shortcuts / Aliases / Functions for my MacOS/WSL2/Linux terminal(s)
 
-## AWS
+## Setup
 
-### AWS SSM
+### Requirements
+
+* aws (v2)
+* bash (4.3+)
+* jq (v1.6)
+* modules (4+)
+
+### Setting your bashrc / zshrc
+
+Simply clone this repo and then add the following line to your `~/.bashrc`
+
+```bash
+source "/path/to/repos/bashrc/profiles/WSL2Profile.bash"
+```
+
+## Modules
+
+### my-aws-shortcuts/1.0.0
 
 #### ssm
+
+> Autocompletion-enabled: :greentickmark:
 
 Log into a running ec2-instance
 
@@ -14,7 +33,11 @@ Log into a running ec2-instance
 ssm i-XYZ
 ```
 
+Example: :construction:
+
 #### ssm_port
+
+> Autocompletion-enabled: :greentickmark:
 
 Set port forwarding to ec2-instance
 
@@ -23,7 +46,11 @@ Set port forwarding to ec2-instance
 ssm_port i-XYZ 8888
 ```
 
+Example: :construction:
+
 #### ssm_run
+
+> Autocompletion-enabled: :greentickmark:
 
 Submit a command to a running ec2-instance
 
@@ -33,73 +60,23 @@ echo "sbatch --wrap \"sleep 4\"" | \
 ssm_run --instance-id=i-XYZ
 ```
 
-### AWS SSO
+### Local Path Shortcuts
 
-#### aws_sso_<profile>
+#### go_to_git/1.0.0
 
-Log in to AWS profile `<profile>`
+> Autocompletion-enabled: :greentickmark:
 
-> Example Usage
-```bash
-aws_sso_dev
-```
+Searches `"$GITHUB_PATH"` for git repositories. 
 
+Example: :construction:
 
-## IAP
+## Troubleshooting
 
-Functions related to the Illumina Analytics Platform CLI
+This GitHub repo uses soft-links that may 
+not be compatible with Windows WSL2 Users. 
 
-### IAP Tokens Management
-
-#### iap_refresh_<WORKGROUP>_session_yaml
-
-Creates a new work token in the workgroup specific session yaml.
-
-### IAP Shortcuts
-
-#### get_iap_aws_sync_command
-
-Takes the input of `iap folders update --with-access --output-format=json`
-and returns a AWS s3 sync command with a session token.
-
-> Example Usage
-```bash
-GDS_PATH="gds://umccr-alexisl-test"
-iap folders update "${GDS_PATH}" \
-  --with-access \
-  --output-format=json | \
-get_iap_aws_sync_command \
-  --dest "$(mktemp -d)"
-```
-
-Yields
-
-```bash
-AWS_DEFAULT_REGION="ap-southeast-2" \
-AWS_ACCESS_KEY_ID="AB..." \
-AWS_SECRET_ACCESS_KEY="CD..." \
-AWS_SESSION_TOKEN="EF..." \
-shortcuts-aws s3 sync \
-  "s3://stratus-gds-aps2/..GH../mini-fastqs/" \
-  "/tmp/tmp.s0GX1UXSwu"
-```
+I will write up a guide on how to seamlessly 
+use soft-links with Git / WSL2 and Windows at a later date.
 
 
-#### run_illumination_<workgroup>
 
-Runs the illumination docker container in 'detach' mode
-
-> Example Usage
-
-```bash
-run_illumination_dev
-```
-
-#### run_iap_<workgroup>_gui
-
-Run the PyQt File system gui for iap
-
-> Example Usage
-```bash
-run_iap_collab_gui gds://umccr-alexisl-test/
-```

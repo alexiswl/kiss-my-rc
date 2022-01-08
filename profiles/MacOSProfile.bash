@@ -18,8 +18,8 @@ for s_file in "${_THIS_DIR}"/ica/*.sh; do
   source "${s_file}"
 done
 
-# Source shortcuts-aws functions
-# shellcheck source=shortcuts-aws/*.sh
+# Source aws functions
+# shellcheck source=aws/*.sh
 for s_file in "${_THIS_DIR}"/aws/*.sh; do
   source "${s_file}"
 done

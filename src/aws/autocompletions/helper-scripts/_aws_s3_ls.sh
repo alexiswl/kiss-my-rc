@@ -16,7 +16,7 @@ set -euo pipefail
 ## Checkers
 check_bin_path(){
   if ! type \
-    shortcuts-aws \
+    aws \
     python3 \
     jq 2>/dev/null; then
       return 1
@@ -24,9 +24,9 @@ check_bin_path(){
 }
 
 check_aws_version(){
-  if [[ "$(shortcuts-aws --version | \
+  if [[ "$(aws --version | \
            tr ' ' '\n' | \
-           grep '^shortcuts-aws-cli/' | \
+           grep '^aws-cli/' | \
            cut -d'/' -f2 | \
            cut -d'.' -f1)" -lt "2" ]]; then
     return 1
@@ -59,8 +59,9 @@ check_bucket(){
   local bucket_name="$1"
 
   # Print bucket
-  if [[ "$(shortcuts-aws s3api list-buckets --output json | \
-           jq '.Buckets[].Name' | \
+  if [[ "$(aws s3api list-buckets --output json | \
+           jq --raw-output \
+            '.Buckets[].Name' | \
            grep -c "^${bucket_name}$")" == "0" ]] ; then
     return 1
   else
@@ -87,7 +88,7 @@ get_key_prefix(){
   local s3_path="$1"
 
   # Function outputs
-  python3 -c "from urllib.parse import urlparse; print(urlparse(\"${s3_path}\").path)"
+  python3 -c "from urllib.parse import urlparse; print(urlparse(\"${s3_path}\").path.lstrip(\"/\"))"
 }
 
 ##########
@@ -97,7 +98,7 @@ print_buckets(){
   : '
   Print s3 buckets
   '
-  shortcuts-aws s3api list-buckets \
+  aws s3api list-buckets \
     --output json | \
   jq --raw-output \
     '"s3://" + .Buckets[].Name'
@@ -116,7 +117,7 @@ print_prefixes_and_files(){
   local delimiter="/"
 
   # Print outputs
-  shortcuts-aws s3api list-objects-v2 \
+  aws s3api list-objects-v2 \
     --bucket "${bucket}" \
     --prefix "${prefix}" \
     --delimiter "${delimiter}" \
@@ -160,4 +161,4 @@ if ! check_bucket "${bucket_name}"; then
 fi
 
 # Print both files and subfolders simultaneously
-print_files_and_subfolders "${bucket_name}" "${key_prefix}"
+print_prefixes_and_files "${bucket_name}" "${key_prefix}"

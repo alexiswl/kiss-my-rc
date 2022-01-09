@@ -51,7 +51,7 @@ _extract_compreply() {
 
 _extract__param_file_to_extract_completion() {
     local CURRENT_WORD="${words[$cword]}"
-    local param_file_to_extract="$(find -L "$(if [[ -d "${CURRENT_WORD}" ]]; then echo "${CURRENT_WORD}"; else dirname "${CURRENT_WORD}"; fi)" \
+    local param_file_to_extract="$(find -L "$(if [[ -d "${CURRENT_WORD}" || -z "${CURRENT_WORD}" ]]; then echo "${CURRENT_WORD}"; else dirname "${CURRENT_WORD}"; fi)" \
   -type f \
   -name "*.tar.bz2" -o \
   -name "*.tar.gz" -o \

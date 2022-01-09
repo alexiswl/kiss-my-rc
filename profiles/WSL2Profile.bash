@@ -23,6 +23,13 @@ export GITHUB_PATH
 export BASHRC_REPO_PATH
 export MODULEPATH
 
-# Load modules
-module load my-aws-shortcuts/1.0.0
+# Load local modules
 module load my-local-path-shortcuts/1.0.0
+module load my-local-display-settings/1.0.0
+module load my-local-history-settings/1.0.0
+module load my-local-serenity/1.0.0
+module load my-local-aliases/1.0.0
+module load my-local-extraction-shortcuts/1.0.0
+
+# Load app modules
+module load my-aws-shortcuts/1.0.0

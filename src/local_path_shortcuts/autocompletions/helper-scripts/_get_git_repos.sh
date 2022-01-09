@@ -26,9 +26,9 @@ get_git_repos(){
     -type d \
     -name ".git" \
     -printf "%h/\n" | \
-  get_sed_binary "s%${github_path}%%" | \
-  get_sed_binary 's%/$%%' | \
-  get_sed_binary 's%^/%%'
+  "$(get_sed_binary)" "s%${github_path}%%" | \
+  "$(get_sed_binary)" 's%/$%%' | \
+  "$(get_sed_binary)" 's%^/%%'
 }
 
 # Make sure that "GITHUB_PATH" is defined

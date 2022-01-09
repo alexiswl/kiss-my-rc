@@ -6,7 +6,7 @@ parameters:
     type: "string"
     completion:
       command_string: |-
-        find -L "$(if [[ -d "${CURRENT_WORD}" ]]; then echo "${CURRENT_WORD}"; else dirname "${CURRENT_WORD}"; fi)" \
+        find -L "$(if [[ -d "${CURRENT_WORD}" || -z "${CURRENT_WORD}" ]]; then echo "${CURRENT_WORD}"; else dirname "${CURRENT_WORD}"; fi)" \
           -type f \
           -name "*.tar.bz2" -o \
           -name "*.tar.gz" -o \

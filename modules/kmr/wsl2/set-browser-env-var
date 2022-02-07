@@ -1,0 +1,5 @@
+#%Module4.6
+
+# Set the browser env var to wslview
+setenv BROWSER "wslview"
+

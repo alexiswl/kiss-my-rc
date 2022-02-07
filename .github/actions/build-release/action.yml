@@ -54,31 +54,31 @@ runs:
           zip
         
         # Create release dir
-        mkdir -p "kiss-my-rc-v${{ inputs.git_tag }}"
+        mkdir -p "kiss-my-rc-${{ inputs.git_tag }}"
         
         # Add elements
         rsync --archive \
-          "src/elements/" "kiss-my-rc-v${{ inputs.git_tag }}/elements/"
+          "src/elements/" "kiss-my-rc-${{ inputs.git_tag }}/elements/"
         
         # Add modules
         rsync --archive \
-          "modules/" "kiss-my-rc-v${{ inputs.git_tag }}/modules/"
+          "modules/" "kiss-my-rc-${{ inputs.git_tag }}/modules/"
         
         # Add source_this.sh from templates to all elements
-        for i in $(find kiss-my-rc-v${{ inputs.git_tag }}/elements/ -mindepth 1 -maxdepth 1 -type d -printf "%f); do
-          cp "src/template/source_this.sh" kiss-my-rc-v${{ inputs.git_tag }}/elements/$i
+        for i in $(find kiss-my-rc-${{ inputs.git_tag }}/elements/ -mindepth 1 -maxdepth 1 -type d -printf "%f\n"); do
+          cp "src/template/source_this.sh" kiss-my-rc-${{ inputs.git_tag }}/elements/$i/source_this.sh
         done
         
         # Copy over installation script
         rsync --archive \
-          "src/install.sh" "kiss-my-rc-v${{ inputs.git_tag }}/install.sh"
+          "src/install.sh" "kiss-my-rc-${{ inputs.git_tag }}/install.sh"
                 
         # Make install.sh an executable
-        chmod +x "kiss-my-rc-v${{ inputs.git_tag }}/install.sh"
+        chmod +x "kiss-my-rc-${{ inputs.git_tag }}/install.sh"
         
         # Copy over the profile shell script
         rsync --archive \
-          "src/profile.sh" "kiss-my-rc-v${{ inputs.git_tag }}/profile.sh"
+          "src/profile.sh" "kiss-my-rc-${{ inputs.git_tag }}/profile.sh"
         
         # Create zip file
-        zip -q -r "kiss-my-rc-v${{ inputs.git_tag }}.zip" "kiss-my-rc-v${{ inputs.git_tag }}"
+        zip -q -r "kiss-my-rc-${{ inputs.git_tag }}.zip" "kiss-my-rc-${{ inputs.git_tag }}"

@@ -7,7 +7,6 @@ Shortcuts / Autocompletion / Aliases / Functions for my MacOS/WSL2/Linux termina
 
 * aws (v2)
 * bash (4.3+)
-* jq (v1.6)
 * modules (4+)
 
 ### Setting your bashrc / zshrc

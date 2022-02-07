@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 : '
-Kiss-my-bashrc default template
+Kiss-my-rc default template
 This file should be sourced by .bashrc
 '
 
@@ -9,17 +9,17 @@ This file should be sourced by .bashrc
 # PRE-FLIGHT CHECKS
 ###################
 if [[ -z "${KISS_MY_RC_INSTALL_PATH}" ]]; then
-  echo "Unable to load kiss-my-bashrc modules, please ensure KISS_MY_RC_INSTALL_PATH is set" 1>&2
-  exit
+  echo "Unable to load kiss-my-rc modules, please ensure KISS_MY_RC_INSTALL_PATH is set" 1>&2
+  return 1
 fi
 
-# Export module path to the kiss-my-bashrc-installation path
+# Export module path to the kiss-my-rc-installation path
 export MODULEPATH="${MODULEPATH-}:${KISS_MY_RC_INSTALL_PATH}/modules"
 
 # Ensure modules function exists
-if ! type modules; then
+if ! type module 1>/dev/null 2>&1; then
   echo "Could not confirm environment-modules are installed on this system. Exiting" 1>&2
-  exit
+  return 1
 fi
 
 ###############
@@ -33,7 +33,7 @@ fi
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_PATH_SHORTCUTS__
 Uncomment the line below to activate the local path shortcuts module
 '
-# module load kmr/local-path-shortcuts
+# module load kmr/local/path-shortcuts
 
 # Local display shortcuts
 : '
@@ -42,7 +42,7 @@ Local display settings
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_DISPLAY_SETTINGS__
 Uncomment the line below to activate the local display shortcuts module
 '
-# module load kmr/local-display-settings
+# module load kmr/local/display-settings
 
 # Local history settings
 : '
@@ -54,7 +54,7 @@ Local history settings
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_HISTORY_SETTINGS__
 Uncomment the line below to activate the local history settings module
 '
-# module load kmr/local-history-settings
+# module load kmr/local/history-settings
 
 # Local serenity settings
 : '
@@ -64,7 +64,7 @@ Local serenity settings
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_SERENITY_SETTINGS__
 Uncomment the line below to activate the local serenity settings module
 '
-# module load kmr/local-serenity
+# module load kmr/local/serenity
 
 # Local aliases
 : '
@@ -73,7 +73,7 @@ Various collection of useful aliases
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_ALIASES__
 Uncomment the line below to activate the local aliases module
 '
-# module load kmr/local-aliases
+# module load kmr/local/aliases
 
 # Local extraction shortcuts
 : '
@@ -82,7 +82,7 @@ Shortcut for extracting various compression algorithm based on file suffix
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_EXTRACTION_SHORTCUTS__
 Uncomment the line below to activate the local extraction shortcuts module
 '
-# module load kmr/local-extraction-shortcuts
+# module load kmr/local/extraction-shortcuts
 
 ###############
 # OS-SPECIFIC
@@ -97,7 +97,7 @@ Uses the network information through route.exe to set the DISPLAY environment va
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/WSL2_DISPLAY_ENVIROMENT_VARIABLE__
 Uncomment the line below to activate the wsl2-specific display env var
 '
-#module load kmr/wsl2-set-display-env-var
+#module load kmr/wsl2/set-display-env-var
 
 # WSL2 browser
 : '
@@ -106,7 +106,7 @@ Set the BROWSER variable to "wslview"
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/WSL2_DISPLAY_ENVIROMENT_VARIABLE__
 Uncomment the line below to activate the wsl2-specific browser env var
 '
-# module load kmr/wsl2-set-browser-env-var
+# module load kmr/wsl2/set-browser-env-var
 
 #############
 # APP MODULES
@@ -117,4 +117,4 @@ Uncomment the line below to activate the wsl2-specific browser env var
 Requires aws v2 to be installed
 Uncomment the line below to activate the aws shortcuts module
 '
-# module load kmr/aws-shortcuts
+# module load kmr/aws/shortcuts

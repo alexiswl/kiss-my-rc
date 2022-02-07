@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 : '
 1. Checks user has all required pre-requisites
 2. Asks user to install preferred profile (or use the -p parameter)
-3. Install items ~/.kiss-my-bashrc
+3. Install items ~/.kiss-my-rc
 '
 
 help_message="Usage: install.sh [ -b | --batch ]
-Installs kiss-my-bashrc into users home directory and bashrc / zshrc.
+Installs kiss-my-rc into users home directory and bashrc / zshrc.
 
 Options:
--b / --batch: Batch mode, do not prompt user, just inject kiss-my-bashrc into rc file.
+-b / --batch: Batch mode, do not prompt user, just inject kiss-my-rc into rc file.
 
 Requirements:
 
@@ -58,7 +60,7 @@ binaries_check(){
   : '
   Check each of the required binaries are available
   '
-  if ! (type module 1>/dev/null); then
+  if ! (type module 1>/dev/null 2>&1); then
     return 1
   fi
 }
@@ -100,7 +102,7 @@ get_this_path() {
 #########
 # GLOBALS
 #########
-KISS_MY_RC_INSTALL_PATH="${HOME}/.kiss-my-bashrc"
+KISS_MY_RC_INSTALL_PATH="${HOME}/.kiss-my-rc"
 
 #########
 # CHECKS
@@ -133,7 +135,7 @@ fi
 
 # Checking bash-completion is installed (for bash users only)
 if [[ "${user_shell}" == "bash" ]]; then
-  if ! ("${SHELL}" -lic "type _init_completion 1>/dev/null"); then
+  if ! ("${SHELL}" -lic "type _init_completion 1>/dev/null 2>&1" 2>/dev/null ); then
     echo_stderr "Could not find the command '_init_completion' which is necessary for auto-completion scripts"
     echo_stderr "If you are running on MacOS, please run the following command:"
     echo_stderr "brew install bash-completion@2 --HEAD"
@@ -177,31 +179,27 @@ while [ $# -gt 0 ]; do
 done
 
 ############
-# ARG CHECKS
-############
-if [[ -n "${profile}" && ! -f "$(get_this_path)/${profile}" ]]; then
-  echo_stderr "Profile selected not one found. List of available "
-fi
-
-
-############
 # COPY FILES
 ############
 
-# Let's first create the kiss-my-bashrc installation directory
-mkdir -p "${KISS_MY_RC_INSTALL_PATH}"
+# Let's first create the kiss-my-rc installation directory
+# And also copy over elements and modules
+mkdir -p \
+  "${KISS_MY_RC_INSTALL_PATH}" \
+  "${KISS_MY_RC_INSTALL_PATH}/elements/" \
+  "${KISS_MY_RC_INSTALL_PATH}/modules/"
 
-# Copy over elements and modules
-cp -r "$(get_this_path)/elements/" "${KISS_MY_RC_INSTALL_PATH}/elements/."
-cp -r "$(get_this_path)/modules/" "${KISS_MY_RC_INSTALL_PATH}/modules/."
+cp -r "$(get_this_path)/elements/." "${KISS_MY_RC_INSTALL_PATH}/elements/"
+cp -r "$(get_this_path)/modules/." "${KISS_MY_RC_INSTALL_PATH}/modules/"
 
 # Create the profile section
-if [[ ! -f "${KISS_MY_RC_INSTALL_PATH}/profile" ]]; then
+if [[ ! -f "${KISS_MY_RC_INSTALL_PATH}/profile.sh" ]]; then
   # Copy over the profile if there isn't an existing one
-  cp "$(get_this_path)/${profile}" "${KISS_MY_RC_INSTALL_PATH}/profile"
+  cp "$(get_this_path)/profile.sh" "${KISS_MY_RC_INSTALL_PATH}/profile.sh"
+  cp "$(get_this_path)/profile.sh" "${KISS_MY_RC_INSTALL_PATH}/profile.sh"
 else
   echo "File ${KISS_MY_RC_INSTALL_PATH}/profile already exists. Not overwriting" 1>&2
-  echo "Please copy over $(get_this_path)/${profile} from ${KISS_MY_RC_INSTALL_PATH}/profile as you wish" 1>&2
+  echo "Please copy over $(get_this_path)/profile.sh to ${KISS_MY_RC_INSTALL_PATH}/profile.sh as you wish" 1>&2
 fi
 
 user_response=""
@@ -214,7 +212,7 @@ do
   fi
 
   # Prompt user to ask if they would like their bashrc
-  read -p "Would you like to add kiss-my-rc to your ${HOME}/.${user_shell}rc file? (y/n)" user_response
+  read -p "Would you like to add kiss-my-rc to your ${HOME}/.${user_shell}rc file? (y/n): " user_response
 
   # Check user response
   if [[ "${user_response}" == "n" ]]; then
@@ -228,16 +226,13 @@ do
 
 done
 
-
-
-
 # Adding the following section to shell file if it doesn't exist already
 if ! grep -q '# >>> kiss-my-rc >>>' "${HOME}/.${user_shell}rc"; then
   {
     echo ""
     echo "# >>> kiss-my-rc >>>"
     echo "# Kiss my rc installation path"
-    echo "export KISS_MY_RC_INSTALL_PATH="\$HOME/.kiss-my-rc/""
+    echo "export KISS_MY_RC_INSTALL_PATH="\$HOME/.kiss-my-rc""
     echo "if [[ -f "\$HOME/.kiss-my-rc/profile" ]]; then"
     echo "  source "\$HOME/.kiss-my-rc/profile""
     echo "fi"

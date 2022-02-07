@@ -26,14 +26,14 @@ fi
 # LOCAL MODULES
 ###############
 
-# Local path shortcuts
+# Local aliases
 : '
-* Simple go-tos and text finders
-* GITHUB_PATH env var is expected to exist for go_to_git shortcut
-For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_PATH_SHORTCUTS__
-Uncomment the line below to activate the local path shortcuts module
+Various collection of useful aliases
+
+For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_ALIASES__
+Uncomment the line below to activate the local aliases module
 '
-# module load kmr/local/path-shortcuts
+# module load kmr/local/aliases
 
 # Local display shortcuts
 : '
@@ -43,6 +43,15 @@ For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_DISPLAY_SETTINGS__
 Uncomment the line below to activate the local display shortcuts module
 '
 # module load kmr/local/display-settings
+
+# Local path shortcuts
+: '
+* Simple go-tos and text finders
+* GITHUB_PATH env var is expected to exist for go_to_git shortcut
+For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_PATH_SHORTCUTS__
+Uncomment the line below to activate the local path shortcuts module
+'
+# module load kmr/local/path-shortcuts
 
 # Local history settings
 : '
@@ -65,15 +74,6 @@ For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_SERENITY_SETTINGS_
 Uncomment the line below to activate the local serenity settings module
 '
 # module load kmr/local/serenity
-
-# Local aliases
-: '
-Various collection of useful aliases
-
-For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_ALIASES__
-Uncomment the line below to activate the local aliases module
-'
-# module load kmr/local/aliases
 
 # Local extraction shortcuts
 : '
@@ -103,7 +103,7 @@ Uncomment the line below to activate the wsl2-specific display env var
 : '
 Set the BROWSER variable to "wslview"
 
-For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/WSL2_DISPLAY_ENVIROMENT_VARIABLE__
+For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/WSL2_BROWSER_ENVIROMENT_VARIABLE__
 Uncomment the line below to activate the wsl2-specific browser env var
 '
 # module load kmr/wsl2/set-browser-env-var
@@ -115,6 +115,9 @@ Uncomment the line below to activate the wsl2-specific browser env var
 # AWS
 : '
 Requires aws v2 to be installed
+
+For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/AWS_SHORTCUTS__
+
 Uncomment the line below to activate the aws shortcuts module
 '
 # module load kmr/aws/shortcuts

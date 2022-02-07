@@ -202,32 +202,48 @@ else
   echo "Please copy over $(get_this_path)/profile.sh to ${KISS_MY_RC_INSTALL_PATH}/profile.sh as you wish" 1>&2
 fi
 
-user_response=""
-
-while :
-do
-  # Check if batch selected, skip if so
-  if [[ "${batch}" == "true" ]]; then
-    break
-  fi
-
-  # Prompt user to ask if they would like their bashrc
-  read -p "Would you like to add kiss-my-rc to your ${HOME}/.${user_shell}rc file? (y/n): " user_response
-
-  # Check user response
-  if [[ "${user_response}" == "n" ]]; then
-    echo "kiss-my-rc not added to your ${HOME}/.${user_shell}rc file" 1>&2
-    exit
-  elif [[ "${user_response}" == "y" ]]; then
-    break
-  else
-    echo "Please answer either 'y' or 'n'" 1>&2
-  fi
-
+# Convert binaries to executables
+for i in $(find "${KISS_MY_RC_INSTALL_PATH}/elements/" -mindepth 2 -maxdepth 2 -type d -name 'autocompletions' ); do
+  for j in $(find "$i" -mindepth 1 -maxdepth 1 -type d -name 'helper-scripts'); do
+    for k in $(find "$j" -mindepth 1 -maxdepth 1 -type f -name '*.sh'); do
+      chmod +x "$k"
+    done
+  done
 done
+
+# Convert binaries to executables
+for i in $(find "${KISS_MY_RC_INSTALL_PATH}/elements/" -mindepth 2 -maxdepth 2 -type d -name 'bin' ); do
+  for j in $(find "$i" -mindepth 1 -maxdepth 1 -type f); do
+    chmod +x "$j"
+  done
+done
+
 
 # Adding the following section to shell file if it doesn't exist already
 if ! grep -q '# >>> kiss-my-rc >>>' "${HOME}/.${user_shell}rc"; then
+  while :; do
+    # Check if batch selected, skip if so
+    if [[ "${batch}" == "true" ]]; then
+      break
+    fi
+
+    user_response=""
+
+    # Prompt user to ask if they would like their bashrc
+    read -p "Would you like to add kiss-my-rc to your ${HOME}/.${user_shell}rc file? (y/n): " user_response
+
+    # Check user response
+    if [[ "${user_response}" == "n" ]]; then
+      echo "kiss-my-rc not added to your ${HOME}/.${user_shell}rc file" 1>&2
+      exit
+    elif [[ "${user_response}" == "y" ]]; then
+      break
+    else
+      echo "Please answer either 'y' or 'n'" 1>&2
+    fi
+  done
+
+  # Add kiss-my-rc to user's rc profile
   {
     echo ""
     echo "# >>> kiss-my-rc >>>"

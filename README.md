@@ -1,5 +1,5 @@
-# bashrc
-Shortcuts / Aliases / Functions for my MacOS/WSL2/Linux terminal(s)
+# kiss-my-rc
+Shortcuts / Autocompletion / Aliases / Functions for my MacOS/WSL2/Linux terminal(s)
 
 ## Setup
 
@@ -25,6 +25,8 @@ bash install.sh
 ## Modules
 
 See [wiki][wiki] for all modules and example usage
+
+[wiki]: https://github.com/alexiswl/kiss-my-rc/wiki
 
 
 

@@ -69,6 +69,15 @@ runs:
           cp "src/template/source_this.sh" kiss-my-rc-${{ inputs.git_tag }}/elements/$i/source_this.sh
         done
         
+        # Convert helper scripts to executables
+        for i in $(find ~/.kiss-my-rc/elements/ -mindepth 2 -maxdepth 2 -type d -name 'autocompletions' ); do
+          for j in $(find "$i" -mindepth 1 -maxdepth 1 -type d -name 'helper-scripts'); do
+            for k in $(find "$j" -mindepth 1 -maxdepth 1 -type f -name '*.sh'); do
+              chmod +x "$k"
+            done
+          done
+        done
+        
         # Copy over installation script
         rsync --archive \
           "src/install.sh" "kiss-my-rc-${{ inputs.git_tag }}/install.sh"

@@ -12,71 +12,20 @@ Shortcuts / Aliases / Functions for my MacOS/WSL2/Linux terminal(s)
 
 ### Setting your bashrc / zshrc
 
-Simply clone this repo and then add the following line to your `~/.bashrc`
+Head to the releases page and download the latest release and run the installer
+The following code may be of assistance
 
 ```bash
-source "/path/to/repos/bashrc/profiles/WSL2Profile.bash"
+version="1.0.0"
+unzip kiss-my-rc-${version}.zip
+cd kiss-my-rc-${version}
+bash install.sh
 ```
 
 ## Modules
 
-### my-aws-shortcuts/1.0.0
+See [wiki][wiki] for all modules and example usage
 
-#### ssm
-
-> Autocompletion-enabled: :greentickmark:
-
-Log into a running ec2-instance
-
-> Example Usage
-```bash
-ssm i-XYZ
-```
-
-Example: :construction:
-
-#### ssm_port
-
-> Autocompletion-enabled: :greentickmark:
-
-Set port forwarding to ec2-instance
-
-> Example Usage
-```bash
-ssm_port i-XYZ 8888
-```
-
-Example: :construction:
-
-#### ssm_run
-
-> Autocompletion-enabled: :greentickmark:
-
-Submit a command to a running ec2-instance
-
-> Example Usage
-```bash
-echo "sbatch --wrap \"sleep 4\"" | \
-ssm_run --instance-id=i-XYZ
-```
-
-### Local Path Shortcuts
-
-#### go_to_git/1.0.0
-
-> Autocompletion-enabled: :greentickmark:
-
-Searches `"$GITHUB_PATH"` for git repositories. 
-
-Example: :construction:
-
-## Troubleshooting
-
-This GitHub repo uses soft-links that may 
-not be compatible with Windows WSL2 Users. 
-
-I will write up a guide on how to seamlessly 
-use soft-links with Git / WSL2 and Windows at a later date.
 
 
 

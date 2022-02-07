@@ -1,0 +1,124 @@
+#%Module4.6
+
+# Mostly taken from https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c
+
+# alias to show the date
+set-alias "da" "date \"+%Y-%m-%d %A %T %Z\""
+
+# Alias's to modified commands
+set-alias "cp" "cp -i"
+set-alias "mv" "mv -i"
+set-alias "rm" "rm -iv"
+set-alias "mkdir" "mkdir -p"
+set-alias "ps" "ps auxf"
+set-alias "ping" "ping -c 10"
+set-alias "less" "less -R"
+set-alias "cls" "clear"
+set-alias "multitail" "multitail --no-repeat -c"
+set-alias "vis" "vim \"+set si\""
+set-alias "vip" "vim \"+set paste\""
+
+# Change directory aliases
+set-alias home "cd ~"
+set-alias cd.. "cd .."
+set-alias .. "cd .."
+set-alias ... "cd ../.."
+set-alias .... "cd ../../.."
+set-alias ..... "cd ../../../.."
+
+# # cd into the old directory
+set-alias "bd" "cd \"\$OLDPWD\""
+
+# Remove a directory and all files
+set-alias "rmd" "rm --recursive --force --verbose"
+
+# Alias's for multiple directory listing commands
+
+# show hidden files
+set-alias "la" "ls -Alh"
+
+# add colors and file type extensions
+set-alias "ls" "/usr/bin/ls -aFh --color=always"
+
+# sort by extension
+set-alias "lx" "ls -lXBh"
+
+# sort by size
+set-alias "lk" "ls -lSrh"
+
+# sort by change time
+set-alias "lc" "ls -lcrh"
+
+# sort by access time
+set-alias "lu" "ls -lurh"
+
+# recursive ls
+set-alias "lr" "ls -lRh"
+
+# sort by date
+set-alias "lt" "ls -ltrh"
+
+# pipe through "more"
+set-alias "lm" "ls -alh |more"
+
+# wide listing format
+set-alias "lw" "ls -xAh"
+
+# long listing format
+set-alias "ll" "ls -Fls"
+
+# alphabetical sort
+set-alias "labc" "ls -lap"
+
+# Files only
+set-alias "lf" "ls -l | egrep -v \"^d\""
+
+# Directories only
+set-alias "ldir" "ls -l | egrep \"^d\""
+
+# alias chmod commands
+set-alias "mx" "chmod a+x"
+set-alias "000" "chmod -R 000"
+set-alias "644" "chmod -R 644"
+set-alias "666" "chmod -R 666"
+set-alias "755" "chmod -R 755"
+set-alias "777" "chmod -R 777"
+
+# Search command line history
+set-alias "hisgrep" "history | grep"
+
+# Search running processes
+set-alias "psgrep" "ps aux | grep "
+set-alias "hungrycpu" "/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+
+# Count all files (recursively) in the current folder
+set-alias "countfiles" "for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
+
+# To see if a command is aliased, a file, or a built-in command
+set-alias "checkcommand" "type -t"
+
+# Show current network connections to the server
+# set-alias ipview "netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
+
+# Show open ports
+set-alias "openports" "netstat -nape --inet"
+
+# Alias's for safe and forced reboots
+# set-alias rebootsafe 'sudo shutdown -r now'  # place in sysadmin shortcuts
+# set-alias rebootforce 'sudo shutdown -r -n now'  # place in sysadmin shortcuts
+
+# Alias's to show disk space and space used in a folder
+set-alias "diskspace" "du -S | sort -n -r |more"
+set-alias "folders" "du -h --max-depth=1"
+set-alias "folderssort" "find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn"
+set-alias "tree" "tree -CAhF --dirsfirst"
+set-alias "treed" "tree -CAFd"
+set-alias "mountedinfo" "df -hT"
+
+# Alias's for archives
+set-alias "mktar" "tar -cvf"
+set-alias "mkbz2" "tar -cvjf"
+set-alias "mkgz" "tar -cvzf"
+set-alias "untar" "tar -xvf"
+set-alias "unbz2" "tar -xvjf"
+set-alias "ungz" "tar -xvzf"

@@ -2,8 +2,7 @@
 
 # From https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c
 
-ftext ()
-{
+ftext(){
 	# -i case-insensitive
 	# -I ignore binary files
 	# -H causes filename to be printed

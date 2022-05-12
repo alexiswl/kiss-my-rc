@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2016
+: '
+Call a script that uses set +x
+Hide any environment variables (in this env)
+And replace them with their name
+
+i.e ICAV2_ACCESS_TOKEN string ejyra... just becomes ${ICAV2_ACCESS_TOKEN}
+'
+
+# A very incomplete list
+FLAG_WORDS=( \
+  "ACCESS" \
+  "KEY"
+  "SECRET"
+  "TOKEN"
+)
+
+# Get env vars
+env_vars_str="$( \
+  printenv | \
+  grep -E '^\S+=' | \
+  cut -d'=' -f1
+)"
+
+# Read array
+readarray -t env_vars_array <<< "${env_vars_str}"
+
+# Initalise masked vars
+declare -A masked_dict=()
+
+# Find words in environment vars
+for env_varname in "${env_vars_array[@]}"; do
+  for flag_word in "${FLAG_WORDS[@]}"; do
+    if [[ $env_varname == *"$flag_word"* ]]; then
+      env_val="$(eval echo -n "\${${env_varname}}")"
+      masked_dict+=( ["${env_varname}"]="${env_val}" )
+      break
+    fi
+  done
+done
+
+# Initialise sed string
+sed_logic_str=""
+
+# For every key in the associative array..
+for env_var in "${!masked_dict[@]}"; do
+  # Get value
+  env_val="${masked_dict[$env_var]}"
+  # Print the KEY value
+  sed_logic_str="${sed_logic_str}s%${env_val}%\$__${env_var}__%g;"
+done
+
+script_file="$(mktemp)"
+
+# Use single quotes
+# trap logic should be evalued at execution time
+# not initation time, see https://github.com/koalaman/shellcheck/wiki/SC2064
+# for more info
+# Completely irrelevant for this case but interesting none the less
+trap 'rm -f ${script_file}' EXIT
+
+# Write the sed logic to file
+echo "${sed_logic_str}" > "${script_file}"
+
+# Evaluate the subsequent script parsing the stderr through sed
+eval '"${@}"' |& sed --file "${script_file}"

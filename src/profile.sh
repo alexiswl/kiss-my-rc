@@ -35,12 +35,12 @@ Uncomment the line below to activate the local aliases module
 '
 # module load kmr/local/aliases
 
-# Local display shortcuts
+# Local display settings
 : '
 Local display settings
 * Turns on check-win-size which updates the values of LINES and COLUMNS if the window changes
 For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/LOCAL_DISPLAY_SETTINGS__
-Uncomment the line below to activate the local display shortcuts module
+Uncomment the line below to activate the local display settings module
 '
 # module load kmr/local/display-settings
 

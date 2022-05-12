@@ -89,7 +89,7 @@ set-alias "hisgrep" "history | grep"
 
 # Search running processes
 set-alias "psgrep" "ps aux | grep "
-set-alias "hungrycpu" "/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+set-alias "hungrycpu" "command /bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
 # Count all files (recursively) in the current folder
 set-alias "countfiles" "for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"

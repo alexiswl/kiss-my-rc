@@ -56,12 +56,16 @@ fi
 if _directory_not_empty "${_THIS_DIR}/fbin/"; then
   if [[ "${_THIS_SHELL}" == "bash" ]]; then
     # Source files in fbin/ given fbin exists and is not empty
-    # shellcheck source=directory/fbin/*.sh
+    # shellcheck source=directory/fbin/*
     for s_file in "${_THIS_DIR}/fbin/"*; do
       source "${s_file}"
     done
   elif [[ "${_THIS_SHELL}" == "zsh" ]]; then
     export fpath=( "${_THIS_DIR}/fbin/" ${fpath-} )
+    for s_file in "${_THIS_DIR}/fbin/"*; do
+      # shellcheck source=directory/fbin/*
+      autoload -Uz "$(basename "${s_file}")"
+    done
   fi
 fi
 

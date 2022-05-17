@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC2016
 : '
-Call a script that uses set +x
+Call a bash script
 Hide any environment variables (in this env)
 And replace them with their name
 
@@ -65,4 +65,4 @@ trap 'rm -f ${script_file}' EXIT
 echo "${sed_logic_str}" > "${script_file}"
 
 # Evaluate the subsequent script parsing the stderr through sed
-eval '"${@}"' |& sed --file "${script_file}"
+eval bash -o xtrace '"${@}"' |& sed --file "${script_file}"

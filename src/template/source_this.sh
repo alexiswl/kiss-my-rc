@@ -34,15 +34,30 @@ _add_bin_to_path(){
 }
 
 # Set env vars
-_THIS_DIR="$(dirname "${BASH_SOURCE[0]}")"  # Should resolve to the directory this file is linked to
 _THIS_SHELL="$(basename "${SHELL}")"
+
+# Set _THIS_DIR based on SHELL
+if [[ "${_THIS_SHELL}" == "bash" ]]; then
+  _THIS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+elif [[ "${_THIS_SHELL}" == "zsh" ]]; then
+  _THIS_DIR="$(dirname "${(%):-%N}")"
+fi
+
+# source configurations
+if _directory_not_empty "${_THIS_DIR}/rc/"; then
+  for s_file in "${_THIS_DIR}/rc/"*; do
+    # shellcheck source=rc
+    source "${s_file}"
+  done
+fi
+
 
 # source functions
 if _directory_not_empty "${_THIS_DIR}/fbin/"; then
   if [[ "${_THIS_SHELL}" == "bash" ]]; then
     # Source files in fbin/ given fbin exists and is not empty
     # shellcheck source=directory/fbin/*.sh
-    for s_file in "${_THIS_DIR}/fbin/"*.sh; do
+    for s_file in "${_THIS_DIR}/fbin/"*; do
       source "${s_file}"
     done
   elif [[ "${_THIS_SHELL}" == "zsh" ]]; then
@@ -64,9 +79,8 @@ if [[ "${_THIS_SHELL}" == "bash" ]]; then
     done
   fi
 elif [[ "${_THIS_SHELL}" == "zsh" ]]; then
-  if _directory_not_empty "${_THIS_DIR}/autocompletions/bash/"; then
+  if _directory_not_empty "${_THIS_DIR}/autocompletions/zsh/"; then
     # Source files in fbin/ given fbin exists and is not empty
-    # shellcheck source=aws/fbin/*.sh
     export fpath=( "${_THIS_DIR}/autocompletions/zsh/" ${fpath-} )
   fi
 fi

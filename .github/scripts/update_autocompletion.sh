@@ -48,7 +48,7 @@ for module in */ ; do
     done
 
     # Run the zsh completions
-    for spec in specs/*.yaml; do
+    for spec in "${TEMPLATE_DIR}"/*.yaml; do
       [[ -e "$spec" ]] || break  # handle the case of no *.yaml files
       name_root="$(basename "${spec%.yaml}")"
       appspec completion \

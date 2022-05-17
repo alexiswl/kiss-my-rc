@@ -31,7 +31,7 @@ jobs:
         id: is_prerelease
         shell: bash
         run: |
-          if [[ "${{ steps.get_tag_name.outputs.tag_name }}" == "pre"* || "${{ steps.get_tag_name.outputs.tag_name }} == "dev" ]]; then
+          if [[ "${{ steps.get_tag_name.outputs.tag_name }}" == "pre"* || "${{ steps.get_tag_name.outputs.tag_name }}" == "dev" ]]; then
             is_prerelease="true"
           else
             is_prerelease="true"

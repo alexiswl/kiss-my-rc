@@ -8,7 +8,7 @@ Wraps around autocompletion to run the appspec completion command from within th
 set -euo pipefail
 
 # Globals
-SRC_DIR="src"
+SRC_DIR="src/elements"
 AUTOCOMPLETION_DIR="autocompletions"
 TEMPLATE_DIR="templates"
 

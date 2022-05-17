@@ -341,7 +341,8 @@ _aws_s3_ls_param_s3uri_completion
 _aws_s3_ls_param_s3uri_completion() {
     local __dynamic_completion
     local CURRENT_WORD="$words[CURRENT]"
-    IFS=$'\n' __dynamic_completion=( $( _aws_s3_ls.sh "${CURRENT_WORD}"
+    IFS=$'\n' __dynamic_completion=( $( unset AWS_CLI_AUTO_PROMPT && \
+ _aws_s3_ls.sh "${CURRENT_WORD}"
  ) )
     compadd -X "s3uri:" $__dynamic_completion
 }

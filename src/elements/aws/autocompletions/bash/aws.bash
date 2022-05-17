@@ -256,7 +256,8 @@ _aws_compreply() {
 
 _aws_s3_ls_param_s3uri_completion() {
     local CURRENT_WORD="${words[$cword]}"
-    local param_s3uri="$(_aws_s3_ls.sh "${CURRENT_WORD}")"
+    local param_s3uri="$(unset AWS_CLI_AUTO_PROMPT && \
+ _aws_s3_ls.sh "${CURRENT_WORD}")"
     _aws_compreply "$param_s3uri"
 }
 

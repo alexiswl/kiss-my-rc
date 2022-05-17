@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
 # Check window size
-shopt -s checkwinsize
+if [[ "${SHELL}" == "bash" ]]; then
+  shopt -s checkwinsize
+fi

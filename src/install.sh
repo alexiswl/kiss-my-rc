@@ -199,7 +199,7 @@ if [[ ! -f "${KISS_MY_RC_INSTALL_PATH}/profile.sh" ]]; then
   cp "$(get_this_path)/profile.sh" "${KISS_MY_RC_INSTALL_PATH}/profile.sh"
   cp "$(get_this_path)/profile.sh" "${KISS_MY_RC_INSTALL_PATH}/profile.sh"
 else
-  echo "File ${KISS_MY_RC_INSTALL_PATH}/profile already exists. Not overwriting" 1>&2
+  echo "File ${KISS_MY_RC_INSTALL_PATH}/profile.sh already exists. Not overwriting" 1>&2
   echo "Please copy over $(get_this_path)/profile.sh to ${KISS_MY_RC_INSTALL_PATH}/profile.sh as you wish" 1>&2
 fi
 
@@ -250,8 +250,8 @@ if ! grep -q '# >>> kiss-my-rc >>>' "${HOME}/.${user_shell}rc"; then
     echo "# >>> kiss-my-rc >>>"
     echo "# Kiss my rc installation path"
     echo "export KISS_MY_RC_INSTALL_PATH="\$HOME/.kiss-my-rc""
-    echo "if [[ -f "\$HOME/.kiss-my-rc/profile" ]]; then"
-    echo "  source "\$HOME/.kiss-my-rc/profile""
+    echo "if [[ -f "\$HOME/.kiss-my-rc/profile.sh" ]]; then"
+    echo "  source "\$HOME/.kiss-my-rc/profile.sh""
     echo "fi"
     echo "# <<< kiss-my-rc <<<"
     echo ""

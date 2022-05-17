@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
 # Turn off the bell
-bind "set bell-style none"
+if [[ "${SHELL}" == "bash" ]]; then
+  bind "set bell-style none"
+elif [[ "${SHELL}" == "zsh" ]]; then
+  unsetopt BEEP
+fi

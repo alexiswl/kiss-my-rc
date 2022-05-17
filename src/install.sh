@@ -58,9 +58,10 @@ check_readlink_program() {
 
 binaries_check(){
   : '
-  Check each of the required binaries are available
+  Check that module can be found in the interactive console
   '
-  if ! (type module 1>/dev/null 2>&1); then
+  local user_shell="${1}"
+  if ! ("${user_shell}" -lic "type module 1>/dev/null 2>&1"); then
     return 1
   fi
 }
@@ -113,13 +114,13 @@ if ! check_readlink_program; then
   exit 1
 fi
 
-if ! binaries_check; then
+user_shell="$(get_user_shell)"
+
+if ! binaries_check "${user_shell}"; then
   echo_stderr "ERROR: Failed installation at the binaries check stage. Please check the requirements highlighted in usage."
   print_help
   exit 1
 fi
-
-user_shell="$(get_user_shell)"
 
 # Check bash version
 if [[ "${user_shell}" == "bash" ]]; then

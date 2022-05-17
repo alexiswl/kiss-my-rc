@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+: '
+  Make directory and then go there
+'
+
+mkscratchg(){
+  cd "$(mktemp -d)" || return
+}

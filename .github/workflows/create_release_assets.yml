@@ -3,6 +3,7 @@ name: Create and Upload Release
 on:
   push:
     tags:
+      - 'pre-v*'
       - 'v*'
       - 'latest'
 
@@ -25,6 +26,17 @@ jobs:
         uses: ./.github/actions/build-release
         with:
           git_tag: ${{ steps.get_tag_name.outputs.tag_name }}
+      # Is prerelease?
+      - name: Is Prerelease?
+        id: is_prerelease
+        shell: bash
+        run: |
+          if [[ "${{ steps.get_tag_name.outputs.tag_name }}" == "pre"* || "${{ steps.get_tag_name.outputs.tag_name }} == "dev" ]]; then
+            is_prerelease="true"
+          else
+            is_prerelease="true"
+          fi
+          echo "::set-output name=prerelease::${is_prerelease}"
       # Create release zip file
       - name: Create Release
         id: create_release

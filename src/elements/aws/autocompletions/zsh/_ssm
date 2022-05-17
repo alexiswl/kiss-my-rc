@@ -1,37 +1,37 @@
-#compdef go_to_git
+#compdef ssm
 
 # Generated with perl module App::Spec v0.013
 
-_go_to_git() {
-    local program=go_to_git
+_ssm() {
+    local program=ssm
     typeset -A opt_args
     local curcontext="$curcontext" state line context
 
 
         # ---- Command: 
         _arguments -s  \
-            '1: :->repo' \
+            '1: :->instance_id' \
             '--help[Show command help]' \
             '-h[Show command help]' \
             && ret=0
 
         case $state in
-        repo)
-_go_to_git__param_repo_completion
+        instance_id)
+_ssm__param_instance_id_completion
         ;;
         esac
 
 
 }
 
-_go_to_git__param_repo_completion() {
+_ssm__param_instance_id_completion() {
     local __dynamic_completion
     local CURRENT_WORD="$words[CURRENT]"
-    IFS=$'\n' __dynamic_completion=( $( _get_git_repos.sh ) )
-    compadd -X "repo:" $__dynamic_completion
+    IFS=$'\n' __dynamic_completion=( $( _aws_ec2_list_running_instances.sh ) )
+    compadd -X "instance_id:" $__dynamic_completion
 }
 
-__go_to_git_dynamic_comp() {
+__ssm_dynamic_comp() {
     local argname="$1"
     local arg="$2"
     local comp="arg:$argname:(("

@@ -1,0 +1,369 @@
+#compdef aws
+
+# Generated with perl module App::Spec v0.013
+
+_aws() {
+    local program=aws
+    typeset -A opt_args
+    local curcontext="$curcontext" state line context
+
+
+        # ---- Command: 
+        _arguments -s  \
+            '1: :->cmd1' \
+            '*: :->args' \
+            && ret=0
+
+
+        case $state in
+        cmd1)
+            _alternative 'args:cmd2:((help\:"Show command help" s3\:"s3 commands
+"))'
+        ;;
+
+        args)
+            case $line[1] in
+            _meta)
+
+                # ---- Command: _meta
+                _arguments -s -C \
+                    '1: :->cmd1' \
+                    '2: :->cmd2' \
+                    '*: :->args' \
+                    && ret=0
+
+
+                case $state in
+                cmd2)
+                    _alternative 'args:cmd3:((completion\:"Shell completion functions" pod\:"Pod documentation"))'
+                ;;
+
+                args)
+                    case $line[2] in
+                    completion)
+
+                        # ---- Command: _meta completion
+                        _arguments -s -C \
+                            '1: :->cmd1' \
+                            '2: :->cmd2' \
+                            '3: :->cmd3' \
+                            '*: :->args' \
+                            && ret=0
+
+
+                        case $state in
+                        cmd3)
+                            _alternative 'args:cmd4:((generate\:"Generate self completion"))'
+                        ;;
+
+                        args)
+                            case $line[3] in
+                            generate)
+
+                                # ---- Command: _meta completion generate
+                                _arguments -s -C \
+                                    '1: :->cmd1' \
+                                    '2: :->cmd2' \
+                                    '3: :->cmd3' \
+                                    '--help[Show command help]' \
+                                    '-h[Show command help]' \
+                                    '--name[name of the program (optional, override name in spec)]:name' \
+                                    '--zsh[for zsh]' \
+                                    '--bash[for bash]' \
+                                    && ret=0
+
+
+                            ;;
+                            esac
+
+                        ;;
+
+                        esac
+                    ;;
+                    pod)
+
+                        # ---- Command: _meta pod
+                        _arguments -s -C \
+                            '1: :->cmd1' \
+                            '2: :->cmd2' \
+                            '3: :->cmd3' \
+                            '*: :->args' \
+                            && ret=0
+
+
+                        case $state in
+                        cmd3)
+                            _alternative 'args:cmd4:((generate\:"Generate self pod"))'
+                        ;;
+
+                        args)
+                            case $line[3] in
+                            generate)
+
+                                # ---- Command: _meta pod generate
+                                _arguments -s -C \
+                                    '1: :->cmd1' \
+                                    '2: :->cmd2' \
+                                    '3: :->cmd3' \
+                                    '--help[Show command help]' \
+                                    '-h[Show command help]' \
+                                    && ret=0
+
+
+                            ;;
+                            esac
+
+                        ;;
+
+                        esac
+                    ;;
+                    esac
+
+                ;;
+
+                esac
+            ;;
+            help)
+
+                # ---- Command: help
+                _arguments -s -C \
+                    '1: :->cmd1' \
+                    '2: :->cmd2' \
+                    '*: :->args' \
+                    && ret=0
+
+
+                case $state in
+                cmd2)
+                    _alternative 'args:cmd3:((s3))'
+                ;;
+
+                args)
+                    case $line[2] in
+                    _meta)
+
+                        # ---- Command: help _meta
+                        _arguments -s -C \
+                            '1: :->cmd1' \
+                            '2: :->cmd2' \
+                            '3: :->cmd3' \
+                            '*: :->args' \
+                            && ret=0
+
+
+                        case $state in
+                        cmd3)
+                            _alternative 'args:cmd4:((completion pod))'
+                        ;;
+
+                        args)
+                            case $line[3] in
+                            completion)
+
+                                # ---- Command: help _meta completion
+                                _arguments -s -C \
+                                    '1: :->cmd1' \
+                                    '2: :->cmd2' \
+                                    '3: :->cmd3' \
+                                    '4: :->cmd4' \
+                                    '*: :->args' \
+                                    && ret=0
+
+
+                                case $state in
+                                cmd4)
+                                    _alternative 'args:cmd5:((generate))'
+                                ;;
+
+                                args)
+                                    case $line[4] in
+                                    generate)
+
+                                        # ---- Command: help _meta completion generate
+                                        _arguments -s -C \
+                                            '1: :->cmd1' \
+                                            '2: :->cmd2' \
+                                            '3: :->cmd3' \
+                                            '4: :->cmd4' \
+                                            '--help[Show command help]' \
+                                            '-h[Show command help]' \
+                                            '--all[]' \
+                                            && ret=0
+
+
+                                    ;;
+                                    esac
+
+                                ;;
+
+                                esac
+                            ;;
+                            pod)
+
+                                # ---- Command: help _meta pod
+                                _arguments -s -C \
+                                    '1: :->cmd1' \
+                                    '2: :->cmd2' \
+                                    '3: :->cmd3' \
+                                    '4: :->cmd4' \
+                                    '*: :->args' \
+                                    && ret=0
+
+
+                                case $state in
+                                cmd4)
+                                    _alternative 'args:cmd5:((generate))'
+                                ;;
+
+                                args)
+                                    case $line[4] in
+                                    generate)
+
+                                        # ---- Command: help _meta pod generate
+                                        _arguments -s -C \
+                                            '1: :->cmd1' \
+                                            '2: :->cmd2' \
+                                            '3: :->cmd3' \
+                                            '4: :->cmd4' \
+                                            '--help[Show command help]' \
+                                            '-h[Show command help]' \
+                                            '--all[]' \
+                                            && ret=0
+
+
+                                    ;;
+                                    esac
+
+                                ;;
+
+                                esac
+                            ;;
+                            esac
+
+                        ;;
+
+                        esac
+                    ;;
+                    s3)
+
+                        # ---- Command: help s3
+                        _arguments -s -C \
+                            '1: :->cmd1' \
+                            '2: :->cmd2' \
+                            '3: :->cmd3' \
+                            '*: :->args' \
+                            && ret=0
+
+
+                        case $state in
+                        cmd3)
+                            _alternative 'args:cmd4:((ls))'
+                        ;;
+
+                        args)
+                            case $line[3] in
+                            ls)
+
+                                # ---- Command: help s3 ls
+                                _arguments -s -C \
+                                    '1: :->cmd1' \
+                                    '2: :->cmd2' \
+                                    '3: :->cmd3' \
+                                    '--help[Show command help]' \
+                                    '-h[Show command help]' \
+                                    '--all[]' \
+                                    && ret=0
+
+
+                            ;;
+                            esac
+
+                        ;;
+
+                        esac
+                    ;;
+                    esac
+
+                ;;
+
+                esac
+            ;;
+            s3)
+
+                # ---- Command: s3
+                _arguments -s -C \
+                    '1: :->cmd1' \
+                    '2: :->cmd2' \
+                    '*: :->args' \
+                    && ret=0
+
+
+                case $state in
+                cmd2)
+                    _alternative 'args:cmd3:((ls\:"List files / folders in the aws file system
+"))'
+                ;;
+
+                args)
+                    case $line[2] in
+                    ls)
+
+                        # ---- Command: s3 ls
+                        _arguments -s -C \
+                            '1: :->cmd1' \
+                            '2: :->cmd2' \
+                            '3: :->s3uri' \
+                            '--help[Show command help]' \
+                            '-h[Show command help]' \
+                            && ret=0
+
+                        case $state in
+                        s3uri)
+_aws_s3_ls_param_s3uri_completion
+                        ;;
+                        esac
+
+                    ;;
+                    esac
+
+                ;;
+
+                esac
+            ;;
+            esac
+
+        ;;
+
+        esac
+
+}
+
+_aws_s3_ls_param_s3uri_completion() {
+    local __dynamic_completion
+    local CURRENT_WORD="$words[CURRENT]"
+    IFS=$'\n' __dynamic_completion=( $( _aws_s3_ls.sh "${CURRENT_WORD}"
+ ) )
+    compadd -X "s3uri:" $__dynamic_completion
+}
+
+__aws_dynamic_comp() {
+    local argname="$1"
+    local arg="$2"
+    local comp="arg:$argname:(("
+    local line
+    while read -r line; do
+        local name="$line"
+        local desc="$line"
+        name="${name%$'\t'*}"
+        desc="${desc/*$'\t'}"
+        comp="$comp$name"
+        if [[ -n "$desc" && "$name" != "$desc" ]]; then
+            comp="$comp\\:"'"'"$desc"'"'
+        fi
+        comp="$comp "
+    done <<< "$arg"
+
+    comp="$comp))"
+    _alternative "$comp"
+}
+

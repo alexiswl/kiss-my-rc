@@ -1,37 +1,49 @@
-#compdef go_to_git
+#compdef extract
 
 # Generated with perl module App::Spec v0.013
 
-_go_to_git() {
-    local program=go_to_git
+_extract() {
+    local program=extract
     typeset -A opt_args
     local curcontext="$curcontext" state line context
 
 
         # ---- Command: 
         _arguments -s  \
-            '1: :->repo' \
+            '1: :->file-to-extract' \
             '--help[Show command help]' \
             '-h[Show command help]' \
             && ret=0
 
         case $state in
-        repo)
-_go_to_git__param_repo_completion
+        file-to-extract)
+_extract__param_file_to_extract_completion
         ;;
         esac
 
 
 }
 
-_go_to_git__param_repo_completion() {
+_extract__param_file_to_extract_completion() {
     local __dynamic_completion
     local CURRENT_WORD="$words[CURRENT]"
-    IFS=$'\n' __dynamic_completion=( $( _get_git_repos.sh ) )
-    compadd -X "repo:" $__dynamic_completion
+    IFS=$'\n' __dynamic_completion=( $( find -L "$(if [[ -d "${CURRENT_WORD}" || -z "${CURRENT_WORD}" ]]; then echo "${CURRENT_WORD}"; else dirname "${CURRENT_WORD}"; fi)" \
+  -type f \
+  -name "*.tar.bz2" -o \
+  -name "*.tar.gz" -o \
+  -name "*.bz2" -o \
+  -name "*.rar" -o \
+  -name "*.gz" -o \
+  -name "*.tar" -o \
+  -name "*.tbz2" -o \
+  -name "*.tgz" -o \
+  -name "*.zip" -o \
+  -name "*.Z" -o \
+  -name "*.7z" ) )
+    compadd -X "file_to_extract:" $__dynamic_completion
 }
 
-__go_to_git_dynamic_comp() {
+__extract_dynamic_comp() {
     local argname="$1"
     local arg="$2"
     local comp="arg:$argname:(("

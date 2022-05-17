@@ -6,96 +6,96 @@
 set-alias "da" "date \"+%Y-%m-%d %A %T %Z\""
 
 # Alias's to modified commands
-set-alias "cp" "cp -i"
-set-alias "mv" "mv -i"
-set-alias "rm" "rm -iv"
-set-alias "mkdir" "mkdir -p"
-set-alias "ps" "ps auxf"
-set-alias "ping" "ping -c 10"
-set-alias "less" "less -R"
-set-alias "cls" "clear"
-set-alias "multitail" "multitail --no-repeat -c"
-set-alias "vis" "vim \"+set si\""
-set-alias "vip" "vim \"+set paste\""
+set-alias "cp" "command cp -i"
+set-alias "mv" "command mv -i"
+set-alias "rm" "command rm -iv"
+set-alias "mkdir" "command mkdir -p"
+set-alias "ps" "command ps auxf"
+set-alias "ping" "command ping -c 10"
+set-alias "less" "command less -R"
+set-alias "cls" "command clear"
+set-alias "multitail" "command multitail --no-repeat -c"
+set-alias "vis" "command vim \"+set si\""
+set-alias "vip" "command vim \"+set paste\""
 
 # Change directory aliases
-set-alias home "cd ~"
-set-alias cd.. "cd .."
-set-alias .. "cd .."
-set-alias ... "cd ../.."
-set-alias .... "cd ../../.."
-set-alias ..... "cd ../../../.."
+set-alias home "command cd ~"
+set-alias cd.. "command cd .."
+set-alias .. "command cd .."
+set-alias ... "command cd ../.."
+set-alias .... "command cd ../../.."
+set-alias ..... "command cd ../../../.."
 
 # # cd into the old directory
-set-alias "bd" "cd \"\$OLDPWD\""
+set-alias "bd" "command cd \"\$OLDPWD\""
 
 # Remove a directory and all files
-set-alias "rmd" "rm --recursive --force --verbose"
+set-alias "rmd" "command rm --recursive --force --verbose"
 
 # Alias's for multiple directory listing commands
 
 # show hidden files
-set-alias "la" "ls -Alh"
+set-alias "la" "command ls -Alh"
 
 # add colors and file type extensions
 set-alias "ls" "command ls -aFh --color=always"
 
 # sort by extension
-set-alias "lx" "ls -lXBh"
+set-alias "lx" "command ls -lXBh"
 
 # sort by size
-set-alias "lk" "ls -lSrh"
+set-alias "lk" "command ls -lSrh"
 
 # sort by change time
-set-alias "lc" "ls -lcrh"
+set-alias "lc" "command ls -lcrh"
 
 # sort by access time
-set-alias "lu" "ls -lurh"
+set-alias "lu" "command ls -lurh"
 
 # recursive ls
-set-alias "lr" "ls -lRh"
+set-alias "lr" "command ls -lRh"
 
 # sort by date
-set-alias "lt" "ls -ltrh"
+set-alias "lt" "command ls -ltrh"
 
 # pipe through "more"
-set-alias "lm" "ls -alh |more"
+set-alias "lm" "command ls -alh |more"
 
 # wide listing format
-set-alias "lw" "ls -xAh"
+set-alias "lw" "command ls -xAh"
 
 # long listing format
-set-alias "ll" "ls -Fls"
+set-alias "ll" "command ls -Fls"
 
 # alphabetical sort
-set-alias "labc" "ls -lap"
+set-alias "labc" "command ls -lap"
 
 # Files only
-set-alias "lf" "ls -l | egrep -v \"^d\""
+set-alias "lf" "command ls -l | command egrep -v \"^d\""
 
 # Directories only
-set-alias "ldir" "ls -l | egrep \"^d\""
+set-alias "ldir" "command ls -l | command egrep \"^d\""
 
 # alias chmod commands
-set-alias "mx" "chmod a+x"
-set-alias "000" "chmod -R 000"
-set-alias "644" "chmod -R 644"
-set-alias "666" "chmod -R 666"
-set-alias "755" "chmod -R 755"
-set-alias "777" "chmod -R 777"
+set-alias "mx" "command chmod a+x"
+set-alias "000" "command chmod -R 000"
+set-alias "644" "command chmod -R 644"
+set-alias "666" "command chmod -R 666"
+set-alias "755" "command chmod -R 755"
+set-alias "777" "command chmod -R 777"
 
 # Search command line history
-set-alias "hisgrep" "history | grep"
+set-alias "hisgrep" "command history | grep"
 
 # Search running processes
-set-alias "psgrep" "ps aux | grep "
+set-alias "psgrep" "command ps aux | grep "
 set-alias "hungrycpu" "command ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
 # Count all files (recursively) in the current folder
 set-alias "countfiles" "for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
 
 # To see if a command is aliased, a file, or a built-in command
-set-alias "checkcommand" "type -t"
+set-alias "checkcommand" "command type -t"
 
 # Show current network connections to the server
 # set-alias ipview "netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
@@ -116,9 +116,9 @@ set-alias "treed" "tree -CAFd"
 set-alias "mountedinfo" "df -hT"
 
 # Alias's for archives
-set-alias "mktar" "tar -cvf"
-set-alias "mkbz2" "tar -cvjf"
-set-alias "mkgz" "tar -cvzf"
-set-alias "untar" "tar -xvf"
-set-alias "unbz2" "tar -xvjf"
-set-alias "ungz" "tar -xvzf"
+set-alias "mktar" "command tar -cvf"
+set-alias "mkbz2" "command tar -cvjf"
+set-alias "mkgz" "command tar -cvzf"
+set-alias "untar" "command tar -xvf"
+set-alias "unbz2" "command tar -xvjf"
+set-alias "ungz" "command tar -xvzf"

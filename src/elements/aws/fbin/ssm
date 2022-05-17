@@ -1,0 +1,16 @@
+###################
+# Exported Functions
+###################
+ssm(){
+  : '
+  ssh into the ec2 instance.
+  params: instance_id - should start with "i-"
+  '
+  local instance_id
+  instance_id="$1"
+  aws ssm start-session \
+    --target "${instance_id}" \
+    --document-name AWS-StartInteractiveCommand \
+    --parameters command="sudo su - ec2-user"
+}
+

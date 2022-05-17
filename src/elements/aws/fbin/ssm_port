@@ -1,0 +1,32 @@
+ssm_port(){
+  : '
+  Log into an ec2 instance and forward the ports
+  param: instance_id: starts with "i-"
+  param: remote_port: port on ec2 you wish to forward - should be a number
+  param: local_port (optional): port on ec2 you wish to bind the remote port to.
+  '
+  # Get inputs to function
+  local instance_id="$1"
+  local remote_port="$2"
+  local local_port="$3"
+  # Initialise other variables
+  local parameter_arg
+
+  # If local port is not set, set as remote port
+  if [[ -z "${local_port}" ]]; then
+    local_port="${remote_port}"
+  fi
+
+  parameter_arg="$(jq --raw-output \
+                    --arg "key0" "portNumber" \
+                    --arg "value0" "${remote_port}" \
+                    --arg "key1" "localPortNumber" \
+                    --arg "value1" "${local_port}" \
+                    '. | .[$key0]=[$value0] | .[$key1]=[$value1]' <<< '{}')"
+
+  # Run command
+  aws ssm start-session \
+    --target "${instance_id}" \
+    --document-name "AWS-StartPortForwardingSession" \
+    --parameters "${parameter_arg}"
+}

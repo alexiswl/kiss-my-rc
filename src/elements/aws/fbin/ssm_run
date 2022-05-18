@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ssm_run() {
   : '
   Run ssm parameter command

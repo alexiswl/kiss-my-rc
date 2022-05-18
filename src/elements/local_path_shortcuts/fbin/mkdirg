@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-: '
-  From https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c
-'
+
 
 mkdirg(){
+  : '
+  From https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c
+  '
 	mkdir -p "${1}"
 	cd "${1}" || return
 }

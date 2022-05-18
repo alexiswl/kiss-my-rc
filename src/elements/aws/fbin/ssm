@@ -1,6 +1,5 @@
-###################
-# Exported Functions
-###################
+#!/usr/bin/env bash
+
 ssm(){
   : '
   ssh into the ec2 instance.
@@ -13,4 +12,3 @@ ssm(){
     --document-name AWS-StartInteractiveCommand \
     --parameters command="sudo su - ec2-user"
 }
-

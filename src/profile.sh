@@ -84,6 +84,13 @@ Uncomment the line below to activate the local extraction shortcuts module
 '
 # module load kmr/local/extraction-shortcuts
 
+# Local xtrace
+: '
+Shortcut for adding "set +x" to a bash function when run but also
+removing any TOKENS from the console
+'
+# module load kmr/local/mask-xtrace
+
 ###############
 # OS-SPECIFIC
 ###############
@@ -121,3 +128,4 @@ For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/AWS_SHORTCUTS__
 Uncomment the line below to activate the aws shortcuts module
 '
 # module load kmr/aws/shortcuts
+

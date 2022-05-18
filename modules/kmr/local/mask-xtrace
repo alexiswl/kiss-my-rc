@@ -10,7 +10,7 @@ setenv HISTCONTROL "erasedups:ignoredups:ignorespace"
 set kiss_my_rc_install_path [ getenv KISS_MY_RC_INSTALL_PATH ]
 
 # Get the mask-trace
-set source_this_path "$kiss_my_rc_install_path/elements/local_mask_trace/source_this.sh"
+set source_this_path "$kiss_my_rc_install_path/elements/local_mask_xtrace/source_this.sh"
 
 # Run the source script to complete loading the module
 puts "source $source_this_path"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 # Check window size
-if [[ "${SHELL}" == "bash" ]]; then
+if [[ "$(basename "${SHELL}")" == "bash" ]]; then
   shopt -s checkwinsize
 fi

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 # Expand directories
-if [[ "${SHELL}" == "bash" ]]; then
+if [[ "$(basename "${SHELL}")" == "bash" ]]; then
   shopt -s direxpand
 fi

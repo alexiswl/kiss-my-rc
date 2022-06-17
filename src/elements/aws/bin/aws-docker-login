@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Set to fail
+set -euo pipefail
+
+# Get login
+if ! AWS_ACCOUNT_ID="$( \
+  aws sts get-caller-identity \
+    --output json | \
+  jq --raw-output \
+    '
+      .Account
+    '
+)"; then
+  echo "Could not get log in creds for AWS, please ensure youre logged in and then try again" 1>&2
+  exit 1
+fi
+
+# Check login
+if [[ -z "${AWS_ACCOUNT_ID-}" ]]; then
+  echo "Did not seem to be able to retrieve the account identity from the aws sts get-caller-identity function" 1>&2
+  exit 1
+fi
+
+# Check region
+if [[ -z "${AWS_DEFAULT_REGION-}" && -z "${AWS_REGION}" ]]; then
+  echo "Please specify a region by setting the environment variable AWS_DEFAULT_REGION or AWS_REGION" 1>&2
+  exit 1
+fi
+
+# Get region
+AWS_REGION="${AWS_REGION-$AWS_DEFAULT_REGION}"
+
+# Login
+if ! aws ecr get-login-password \
+    --region "${AWS_REGION}" | \
+docker login \
+    --username AWS \
+    --password-stdin \
+  "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"; then
+  echo "Did not log in to ecr successfully" 1>&2
+else
+  echo "Successfully logged in to ecr with account id ${AWS_ACCOUNT_ID}"
+fi

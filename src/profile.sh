@@ -44,6 +44,14 @@ Uncomment the line below to activate the local display settings module
 '
 # module load kmr/local/display-settings
 
+# Local direxpand settings
+: '
+Local direxpand settings
+* Bash only
+* Set shopt -s direxpand
+
+# module load kmr/local/direxpand-settings
+
 # Local path shortcuts
 : '
 * Simple go-tos and text finders
@@ -128,4 +136,12 @@ For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/AWS_SHORTCUTS__
 Uncomment the line below to activate the aws shortcuts module
 '
 # module load kmr/aws/shortcuts
+
+# Conda
+: '
+Requires conda to be installed
+
+For more information see: __KISS_MY_RC_GITHUB_REPO_WIKI/CONDA_COMPLETION
+'
+# module load kmr/conda/autocomplete
 

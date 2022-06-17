@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
 # Set the display environment variable
-DISPLAY="$(route.exe print | grep 0.0.0.0 | head -1 | awk '{print $4}'):0.0"
-
-export DISPLAY
+export DISPLAY=$(ip route list default | awk '{print $3}'):0
+export LIBGL_ALWAYS_INDIRECT=1

@@ -3,6 +3,6 @@
 # Append history rather than overwrite
 if [[ "$(basename "${SHELL}")" == "bash" ]]; then
   shopt -s histappend
-if [[ "$(basename "${SHELL}")" == "zsh" ]]; then
+elif [[ "$(basename "${SHELL}")" == "zsh" ]]; then
   setopt APPEND_HISTORY
 fi
